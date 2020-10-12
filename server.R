@@ -4,15 +4,15 @@ shinyServer(function(input, output){
   
 #-------------summary------------------
   
-  # output$num_store <- renderInfoBox({
-  #   num_store <- nrow(world)
-  #   infoBox("Number of stores", num_store)
-  # })
-  # 
-  # output$num_country <- renderInfoBox({
-  #   num_country <- length(unique(world$country))
-  #   infoBox("Number of countries", num_country)
-  # })
+  output$num_store <- renderInfoBox({
+    num_store <- nrow(world)
+    infoBox("Number of stores", num_store)
+  })
+
+  output$num_country <- renderInfoBox({
+    num_country <- length(unique(world$country))
+    infoBox("Number of countries", num_country)
+  })
   # 
   # output$map = renderGvis({
   #   gvisGeoChart(

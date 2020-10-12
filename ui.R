@@ -57,11 +57,11 @@ dashboardPage(
               ),
       
       tabItem(
-              tabName = 'summary', h2("Glocal Presents of Stabucks Stores")
+              tabName = 'summary', h2("Glocal Presents of Stabucks Stores"),
               
-              # fluidRow(infoBoxOutput("num_store"),
-              #          infoBoxOutput("num_country"),
-              #          ),
+              fluidRow(infoBoxOutput("num_store"),
+                       infoBoxOutput("num_country")
+                       )
               # 
               # fluidRow(
               #   box(htmlOutput('map'),
