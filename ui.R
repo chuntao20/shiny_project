@@ -60,13 +60,16 @@ dashboardPage(
               tabName = 'summary', h2("Glocal Presents of Stabucks Stores"),
               
               fluidRow(infoBoxOutput("num_store"),
-                       infoBoxOutput("num_country")
+                       infoBoxOutput("num_country"),
+                       infoBoxOutput("avg_country")
                        ),
               
 
               fluidRow(
                 box(htmlOutput('map'),
-                    width = 9)
+                    width = 9),
+                box(h4('In 2017, 26057 Starbucks stores are open in 73 countries across the world. Among them, USA stores alone constitute 52.2% of the total. USA and Candana together make the North America the top 1 market of Starbucks. China with 2734 stores makes the second place in store number rank. While Asia become the second largest maket in the world.'),
+                    width=3)
               ),
 
               fluidRow(

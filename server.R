@@ -13,6 +13,11 @@ shinyServer(function(input, output){
     num_country <- length(unique(world$country))
     infoBox("Number of countries", num_country)
   })
+  
+  output$avg_country <- renderInfoBox({
+    avg_country <- round(mean(world_store$total),1)
+    infoBox("Average # of stores per country", avg_country)
+  })
 
   output$map = renderGvis({
     gvisGeoChart(
