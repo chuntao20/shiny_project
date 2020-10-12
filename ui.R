@@ -61,43 +61,44 @@ dashboardPage(
               
               fluidRow(infoBoxOutput("num_store"),
                        infoBoxOutput("num_country")
-                       )
-              # 
-              # fluidRow(
-              #   box(htmlOutput('map'),
-              #       height=350,width = 9)
-              # ),
-              # 
-              # fluidRow(
-              #   
-              #   box(htmlOutput('store_by_top10'),
-              #       height=350,width=6),
-              #   
-              #   box(htmlOutput('store_by_continent'),
-              #       height=350,
-              #       width=6),
-                
-              # )
+                       ),
+
+              fluidRow(
+                box(htmlOutput('map'),
+                    height=450,width = 9)
+              ),
+
+              fluidRow(
+              
+                 box(htmlOutput('store_by_top10'),
+                     height=350,
+                     width=6),
+              
+                 box(htmlOutput('store_by_continent'),
+                     height=350,
+                     width=6)
+
+               )
       ),
       
       
       tabItem(
-              tabName = 'analysis', h2("Expansion Strategy Analysis")
+              tabName = 'analysis', h2("Expansion Strategy Analysis"),
               
-              # 
-              # fluidRow(
-              #   #box(htmlOutput('by_brand'), #select full data/usa/top10
-              #   #    height=350),
-              #   #box(htmlOutput('brand_country'), #select individual country
-              #   #   height=350)
-              # ),
-              # 
-              # fluidRow(
-              #   #box(htmlOutput('by_ownership'), #select full data/usa/top10
-              #   #   height=350),
-              #   #box(htmlOutput('avg_store_by_continent'), #select individual country
-              #   #    height=350)
-              # )
+
+              fluidRow(
+                box(htmlOutput('by_brand'), #select full data/usa/top10
+                    height=350),
+                box(htmlOutput('brand_country'), #select individual country
+                   height=350)
+              ),
+
+              fluidRow(
+                box(htmlOutput('by_ownership'), #select full data/usa/top10
+                   height=350),
+                box(htmlOutput('avg_store_by_continent'), #select individual country
+                   height=350)
+              )
       ),
       
       ####################################################################

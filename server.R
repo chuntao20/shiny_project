@@ -14,18 +14,18 @@ shinyServer(function(input, output){
     infoBox("Number of countries", num_country)
   })
   # 
-  # output$map = renderGvis({
-  #   gvisGeoChart(
-  #     world_store,
-  #     locationvar = "country",
-  #     #numvar = "total",
-  #     hovervar = "country",
-  #     options = list(region='countries',height=350,
-  #                    dataMode='regions',
-  #                    colors='[074E38]')
-  #     
-  #   )
-  # })
+  output$map = renderGvis({
+    gvisGeoChart(
+      world_store,
+      locationvar = "country",
+      #numvar = "total",
+      hovervar = "country",
+      options = list(region='countries',height=350,
+                     dataMode='regions',
+                     colors='[074E38]')
+
+       )
+   })
   # 
   # output$map = renderPlotly({
   #   g <- list(
@@ -51,7 +51,7 @@ shinyServer(function(input, output){
   
   # 
   # 
-  # output$store_by_top10 = renderPlot(
+  # output$store_by_top10 = renderPlot({
   #   world %>%
   #     group_by(country) %>%
   #     summarise(total=n()) %>%
@@ -64,29 +64,29 @@ shinyServer(function(input, output){
   #      coord_flip() +
   #      ylab('Number of store') +
   #      xlab('Country')
-  #   
-  # )
   # 
-  
-  # output$store_by_top10 = renderPlotly({
-  #   world %>%
-  #     group_by(country) %>%
-  #     summarise(total=n()) %>%
-  #     arrange(desc(total)) %>%
-  #     top_n(10) %>%
-  #     plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
-  #             y=total,type='bar') %>%
-  #     layout(title = "Top 10 countries with highest number of Starbucks stores",
-  #            xaxis = list(title = "country"),
-  #            yaxis = list(title = "number of stores")
-  #       
-  #     )
-  #   
   # })
   # 
+  
+  output$store_by_top10 = renderPlotly({
+    world %>%
+      group_by(country) %>%
+      summarise(total=n()) %>%
+      arrange(desc(total)) %>%
+      top_n(10) %>%
+      plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
+              y=total,type='bar') %>%
+      layout(title = "Top 10 countries with highest number of Starbucks stores",
+             xaxis = list(title = "country"),
+             yaxis = list(title = "number of stores")
+
+      )
+
+  })
   # 
   # 
-  # output$store_by_continent = renderPlot(
+  # 
+  # output$store_by_continent = plotOutput({
   #   world %>%
   #     group_by(continent) %>%
   #     summarise(total=n()) %>%
@@ -98,8 +98,8 @@ shinyServer(function(input, output){
   #      geom_text(aes(label=total),  hjust=-0.5)+
   #      ylab('Number of store') +
   #      xlab('Continent')
-  # )
-  # 
+  # })
+
   
   
   
