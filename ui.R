@@ -89,16 +89,21 @@ dashboardPage(
               
 
               fluidRow(
-                box(htmlOutput('by_brand'), #select full data/usa/top10
+                box(plotOutput('by_brand'), #select full data/usa/top10
                     height=350),
-                box(htmlOutput('brand_country'), #select individual country
-                   height=350)
+                box(plotOutput('brand_country'), #select individual country
+                   height=350),
+                box(selectizeInput(inputId = 'brand',
+                                   label = 'Select sub dataset',
+                                   choices = 
+                  
+                ))
               ),
 
               fluidRow(
-                box(htmlOutput('by_ownership'), #select full data/usa/top10
+                box(plotOutput('by_ownership'), #select full data/usa/top10
                    height=350),
-                box(htmlOutput('avg_store_by_continent'), #select individual country
+                box(plotOutput('avg_store_by_continent'), #select individual country
                    height=350)
               )
       ),

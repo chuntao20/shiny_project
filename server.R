@@ -58,7 +58,7 @@ shinyServer(function(input, output){
   # 
   output$store_by_top10 = renderPlot({
     
-      top10 %>% 
+      top10_modified %>% 
       ggplot(aes(x=reorder(country,total),y=total)) +
        geom_col(fill='dark green') +
        geom_text(aes(label=total),  hjust=-0.7)+
@@ -126,13 +126,21 @@ shinyServer(function(input, output){
   # output$brand_country = renderGvis(
   #   
   # )
-  # 
-  # 
-  # output$by_ownership = renderGvis(
-  #   
-  # )
-  # 
-  # 
+
+
+  output$by_ownership = renderPlot({
+    
+    world %>%
+      group_by(country,ownership_type) %>%
+      summarise(num = n()) %>%
+      filter(country %in% input$ownership) %>% 
+      ggplot(aes(x=reorder(country,num),y=num)) +
+      geom_bar(aes(fill=ownership_type),stat='identity',position='fill') +
+      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))
+
+  })
+
+
   # output$avg_store_by_continent = renderGvis(
   #   
   # )
