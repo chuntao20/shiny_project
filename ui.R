@@ -92,19 +92,46 @@ dashboardPage(
                 box(plotOutput('by_brand'), #select full data/usa/top10
                     height=350),
                 box(plotOutput('brand_country'), #select individual country
-                   height=350),
-                box(selectizeInput(inputId = 'brand',
-                                   label = 'Select sub dataset',
-                                   choices = 
+                   height=350)
                   
-                ))
-              ),
+                ),
+            
+              fluidRow(
+                box(radioButtons('brand1',label='Select a dataset:',
+                                       choices = list('All countries' = world,
+                                                      'Top 10 countries' = top10a,
+                                                      'USA' = usa),
+                                       selected = 'All countries')
+                ),
+              
+                
+                box(selectizeInput(inputId = "brand2",
+                                   label = "Select an brand",
+                                   choices = unique(world$brand)))
+        
+                ),
+      
 
               fluidRow(
                 box(plotOutput('by_ownership'), #select full data/usa/top10
                    height=350),
-                box(plotOutput('avg_store_by_continent'), #select individual country
+                box(plotOutput('ownership_country'), #select individual country
                    height=350)
+              ),
+              
+              fluidRow(
+                box(radioButtons('ownership1',label='Select a dataset:',
+                                 choices = list('All countries' = world,
+                                                'Top 10 countries' = top10a,
+                                                'USA' = usa),
+                                 selected = 'All countries')
+                ),
+                
+                
+                box(selectizeInput(inputId = "ownership2",
+                                   label = "Select an ownership type",
+                                   choices = unique(world$ownership_type)))
+                
               )
       ),
       
