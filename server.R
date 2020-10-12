@@ -130,11 +130,11 @@ shinyServer(function(input, output){
   #-------------table------------------
   
 
-# 
-#   output$table <- DT::renderDataTable({
-#     datatable(world, rownames=FALSE)
-# 
-#   })
+
+  output$table <- DT::renderDataTable({
+    datatable(world, rownames=FALSE)
+
+  })
 
 
  })

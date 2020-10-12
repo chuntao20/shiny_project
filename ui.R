@@ -121,12 +121,15 @@ dashboardPage(
       ####################################################################
       
       tabItem(
-              tabName = 'data' 
-              # fluidRow(
-              #   box(DT::dataTableOutput('table'),
-              #       width = 12)
+              tabName = 'data', 
+              
+              h2('Raw data set of Starbucks store location info'),
+              
+              fluidRow(
+                box(DT::dataTableOutput('table'),width = 12)
               )
       )
     )           
     
+ )
 )
