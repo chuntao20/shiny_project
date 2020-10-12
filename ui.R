@@ -25,9 +25,6 @@ dashboardPage(
           
     ),
     
-    selectizeInput('selected','Select Item to Display',
-                   choices = choice)
-    
   ),
   
   
@@ -37,12 +34,24 @@ dashboardPage(
     
     tabItems(
       
-      tabItem(tabName = 'intro', h2("Project Introduction"),
+      tabItem(tabName = 'intro', 
               
-              fluidRow(),
+              h2("Project Summary"),
               
-              fluidRow()
-      ),
+              h3("Starbucks is one of the biggest coffee brands in the world. Since founded in 1971 in Seattle, Washington, it has been constantly growing and now has more than 22,519 stores worldwide (starbuscks.com). The purpose of this project is to understand the underlying logic of Starbucks global expansion strategy. The primary data set was collected in Feb 2017, containing 26,000+ Startbucks store location in 73 countries."),
+      
+              h3('The Shiny dashboard includes 4 tads. The overview tab gives a breif introduction of the project. The global presents tab shows the geographic location for all Starbucks stores. The Analysis tabs shows the store distribution by brands and ownership types. The data tab is the original dataset used in the project.'),
+      
+              br(),
+              
+              h2("About Author"),
+              
+              h3('Chun has a master degree in Education Psychology from University of Pennsylvania.'),
+              
+              h2("Github"),
+              
+              h3('https://github.com/chuntao20/shiny_project')
+              ),
       
       tabItem(tabName = 'summary', h2("Glocal Presents of Stabucks Stores"),
               

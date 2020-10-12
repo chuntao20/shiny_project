@@ -3,6 +3,7 @@ library(shinydashboard)
 library(googleVis)
 library(DT)
 library(dplyr)
+library(leaflet)
 
 
 world = read.csv('world.csv',header=T)
