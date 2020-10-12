@@ -62,20 +62,19 @@ dashboardPage(
               fluidRow(infoBoxOutput("num_store"),
                        infoBoxOutput("num_country")
                        ),
+              
 
               fluidRow(
                 box(htmlOutput('map'),
-                    height=450,width = 9)
+                    width = 9)
               ),
 
               fluidRow(
               
-                 box(htmlOutput('store_by_top10'),
-                     height=350,
+                 box(plotOutput('store_by_top10'),
                      width=6),
               
-                 box(htmlOutput('store_by_continent'),
-                     height=350,
+                 box(plotOutput('store_by_continent'),
                      width=6)
 
                )

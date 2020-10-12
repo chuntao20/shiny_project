@@ -13,7 +13,7 @@ shinyServer(function(input, output){
     num_country <- length(unique(world$country))
     infoBox("Number of countries", num_country)
   })
-  # 
+
   output$map = renderGvis({
     gvisGeoChart(
       world_store,
@@ -51,54 +51,61 @@ shinyServer(function(input, output){
   
   # 
   # 
-  # output$store_by_top10 = renderPlot({
+  output$store_by_top10 = renderPlot({
+    
+      top10 %>% 
+      ggplot(aes(x=reorder(country,total),y=total)) +
+       geom_col(fill='dark green') +
+       geom_text(aes(label=total),  hjust=-0.7)+
+       geom_text(x='USA', y=12500, label='13608',color='white')+
+       theme_bw() +
+       coord_flip() +
+       ylab('') +
+       xlab('') +
+       ggtitle('Number of stores in top 10 country') +
+       theme(text=element_text(size=14,face = "bold"),
+             line=element_blank(),
+             panel.border = element_blank(),
+             axis.line = element_line(color='grey20'))
+
+  })
+  # 
+  # 
+  # output$store_by_top10 = renderPlotly({
   #   world %>%
   #     group_by(country) %>%
   #     summarise(total=n()) %>%
   #     arrange(desc(total)) %>%
   #     top_n(10) %>%
-  #     ggplot(aes(x=reorder(country,total),y=total)) +
-  #      geom_col(fill='dark green') +
-  #      geom_text(aes(label=total),  hjust=-0.5)+
-  #      theme_bw() +
-  #      coord_flip() +
-  #      ylab('Number of store') +
-  #      xlab('Country')
+  #     plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
+  #             y=total,type='bar') %>%
+  #     layout(title = "Top 10 countries with highest number of Starbucks stores",
+  #            xaxis = list(title = "country"),
+  #            yaxis = list(title = "number of stores")
+  # 
+  #     )
   # 
   # })
   # 
-  
-  output$store_by_top10 = renderPlotly({
+  # 
+  # 
+  output$store_by_continent = renderPlot({
     world %>%
-      group_by(country) %>%
+      group_by(continent) %>%
       summarise(total=n()) %>%
       arrange(desc(total)) %>%
-      top_n(10) %>%
-      plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
-              y=total,type='bar') %>%
-      layout(title = "Top 10 countries with highest number of Starbucks stores",
-             xaxis = list(title = "country"),
-             yaxis = list(title = "number of stores")
-
-      )
-
+      ggplot(aes(x=reorder(continent,total),y=total)) +
+       geom_col(fill='dark green') +
+       theme_bw() +
+       geom_text(aes(label=total), vjust = -0.7)+
+       ylab('') +
+       xlab('') +
+       ggtitle('Number of stores by continent') +
+       theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))
   })
-  # 
-  # 
-  # 
-  # output$store_by_continent = plotOutput({
-  #   world %>%
-  #     group_by(continent) %>%
-  #     summarise(total=n()) %>%
-  #     arrange(desc(total)) %>%
-  #     ggplot(aes(x=reorder(continent,total),y=total)) +
-  #      geom_col(fill='dark green') +
-  #      theme_bw() +
-  #      coord_flip() +
-  #      geom_text(aes(label=total),  hjust=-0.5)+
-  #      ylab('Number of store') +
-  #      xlab('Continent')
-  # })
 
   
   

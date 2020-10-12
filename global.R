@@ -25,3 +25,11 @@ top10 = world %>%
   summarise(total=n()) %>%
   arrange(desc(total)) %>%
   top_n(10) 
+
+top10$country = gsub('United Kingdom of Great Britain & Northern Ireland','United Kingdom',top10$country)
+top10$country = gsub('Mexico, United Mexican States','Mexico',top10$country)
+top10$country = gsub('Philippines, Republic of the','Philippines',top10$country)
+top10$country = gsub('Turkey, Republic of','Turkey',top10$country)
+top10$country = gsub('Korea, Republic of','South Korea',top10$country)
+top10$country = gsub("China, People's Republic of",'China',top10$country)
+top10$country = gsub("United States of America",'USA',top10$country)
