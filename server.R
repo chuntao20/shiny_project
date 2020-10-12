@@ -15,22 +15,39 @@ shinyServer(function(input, output){
   })
   
   output$map = renderGvis({
-    gvisGeoChart(world, "state.name", input$selected,
-                 options=list(region="US", displayMode="regions", 
-                              resolution="provinces",
-                              width="auto", height="auto"))
+    gvisGeoChart(world_store, "country", 'Profit', 'total')
   })
   
   
-  output$store_by_top10 = renderGvis(
-    gvisHistogram(state_stat[,input$selected,drop=F])
+  output$store_by_top10 = renderPlot(
+    world %>%
+      group_by(country) %>%
+      summarise(total=n()) %>%
+      arrange(desc(total)) %>%
+      top_n(10) %>%
+      ggplot(aes(x=reorder(country,total),y=total)) +
+       geom_col(fill='dark green') +
+       theme_bw() +
+       coord_flip() +
+       ylab('Number of store') +
+       xlab('Country')
     
   )
   
   
   
   output$store_by_continent = renderGvis(
-    
+    world %>%
+      #filter(continent == input$continent) %>%
+      group_by(continent) %>%
+      summarise(total=n()) %>%
+      arrange(desc(total)) %>%
+      ggplot(aes(x=reorder(continent,total),y=total)) +
+      geom_col(fill='dark green') +
+      theme_bw() +
+      coord_flip() +
+      ylab('Number of store') +
+      xlab('Continent')
   )
   
   

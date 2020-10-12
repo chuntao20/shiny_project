@@ -15,3 +15,6 @@ brand = unique(world$brand)
 continent = unique(world$continent)
 
 
+world_store = world %>%
+  group_by(country) %>%
+  summarise(total=n())
