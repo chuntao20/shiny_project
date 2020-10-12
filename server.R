@@ -15,7 +15,16 @@ shinyServer(function(input, output){
   })
   
   output$map = renderGvis({
-    gvisGeoChart(world_store, "country", 'Profit', 'total')
+    gvisGeoChart(
+      world_store,
+      locationvar = "country",
+      #numvar = "total",
+      hovervar = "country",
+      options = list(region='countries',height=350,
+                     dataMode='regions',
+                     colors='[074E38]')
+      
+    )
   })
   
   
@@ -27,6 +36,7 @@ shinyServer(function(input, output){
       top_n(10) %>%
       ggplot(aes(x=reorder(country,total),y=total)) +
        geom_col(fill='dark green') +
+       geom_text(aes(label=total),  hjust=-0.5)+
        theme_bw() +
        coord_flip() +
        ylab('Number of store') +
@@ -35,25 +45,39 @@ shinyServer(function(input, output){
   )
   
   
-  
-  output$store_by_continent = renderGvis(
+  output$store_by_top10 = renderPlotly({
     world %>%
-      #filter(continent == input$continent) %>%
+      group_by(country) %>%
+      summarise(total=n()) %>%
+      arrange(desc(total)) %>%
+      top_n(10) %>%
+      plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
+              y=total,type='bar') %>%
+      layout(title = "Top 10 countries with highest number of Starbucks stores",
+             xaxis = list(title = "country"),
+             yaxis = list(title = "number of stores")
+        
+      )
+    
+  })
+  
+  
+  
+  output$store_by_continent = renderPlot(
+    world %>%
       group_by(continent) %>%
       summarise(total=n()) %>%
       arrange(desc(total)) %>%
       ggplot(aes(x=reorder(continent,total),y=total)) +
-      geom_col(fill='dark green') +
-      theme_bw() +
-      coord_flip() +
-      ylab('Number of store') +
-      xlab('Continent')
+       geom_col(fill='dark green') +
+       theme_bw() +
+       coord_flip() +
+       geom_text(aes(label=total),  hjust=-0.5)+
+       ylab('Number of store') +
+       xlab('Continent')
   )
   
   
-  output$avg_store_by_continent = renderGvis(
-    
-  )
   
   
   #-------------analysis------------------

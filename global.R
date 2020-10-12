@@ -4,6 +4,7 @@ library(googleVis)
 library(DT)
 library(dplyr)
 library(leaflet)
+library(plotly)
 
 
 world = read.csv('world.csv',header=T)
@@ -18,3 +19,9 @@ continent = unique(world$continent)
 world_store = world %>%
   group_by(country) %>%
   summarise(total=n())
+
+top10 = world %>%
+  group_by(country) %>%
+  summarise(total=n()) %>%
+  arrange(desc(total)) %>%
+  top_n(10) 
