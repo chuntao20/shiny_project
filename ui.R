@@ -61,16 +61,25 @@ dashboardPage(
               
               fluidRow(
                 box(htmlOutput('map'),
-                    height=350),
+                    height=350,width = 6),
                 box(htmlOutput('store_by_top10'),
-                    height=350)
+                    height=350,width=6)
               ),
               
               fluidRow(
                 box(htmlOutput('store_by_continent'),
-                    height=350),
+                    height=350,
+                    width=3),
+                
                 box(htmlOutput('avg_store_by_continent'),
-                    height=350)
+                    height=350,
+                    width=3),
+                
+                box(h4('See the total number of stores by continent and the average store number by continent:'),
+                    selectizeInput(inputId = 'continent',
+                                   label = 'Select a continent:',
+                                   choices = continent),
+                width=3)
               )
       ),
       
