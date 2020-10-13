@@ -66,7 +66,7 @@ dashboardPage(
               
 
               fluidRow(
-                box(htmlOutput('map'),
+                box(leafletOutput('map'),
                     width = 9),
                 box(h4('In 2017, 26057 Starbucks stores are open in 73 countries across the world. Among them, USA stores alone constitute 52.2% of the total. USA and Candana together make the North America the top 1 market of Starbucks. China with 2734 stores makes the second place in store number rank. While Asia become the second largest maket in the world.'),
                     width=3)
@@ -114,7 +114,7 @@ dashboardPage(
                    width=5),
                 box(plotOutput('ownership_country'), 
                    width=5),
-                box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent different strategies.',
+                box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent using different strategies.',
                    selectizeInput(inputId = "ownership2",
                                    label = "Select an ownership type",
                                    choices = unique(world$ownership_type)),

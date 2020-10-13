@@ -30,7 +30,7 @@ top10a = world %>%
   filter(country %in% top10$country)
 
 
-top10$country = gsub('United Kingdom of Great Britain & Northern Ireland','United Kingdom',top10_modified$country)
+top10$country = gsub('United Kingdom of Great Britain & Northern Ireland','United Kingdom',top10$country)
 top10$country = gsub('Mexico, United Mexican States','Mexico',top10$country)
 top10$country = gsub('Philippines, Republic of the','Philippines',top10$country)
 top10$country = gsub('Turkey, Republic of','Turkey',top10$country)

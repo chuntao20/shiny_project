@@ -19,18 +19,28 @@ shinyServer(function(input, output){
     infoBox("Average # of stores per country", avg_country)
   })
 
-  output$map = renderGvis({
-    gvisGeoChart(
-      world_store,
-      locationvar = "country",
-      #numvar = "total",
-      hovervar = "country",
-      options = list(region='countries',height=350,
-                     dataMode='regions',
-                     colors='[074E38]')
+  # output$map = renderGvis({
+  #   gvisGeoChart(
+  #     world_store,
+  #     locationvar = "country",
+  #     #numvar = "total",
+  #     hovervar = "country",
+  #     options = list(region='countries',height=350,
+  #                    dataMode='regions',
+  #                    colors='[074E38]')
+  # 
+  #      )
+  #  })
+  
+  output$map <- renderLeaflet({
+    
+    leaflet(world) %>% addTiles() %>%
+      addMarkers(
+        clusterOptions = markerClusterOptions()
+      )
+  })
+  
 
-       )
-   })
   # 
   # output$map = renderPlotly({
   #   g <- list(
