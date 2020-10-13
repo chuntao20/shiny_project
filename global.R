@@ -41,3 +41,7 @@ top10$country = gsub("United States of America",'USA',top10$country)
 
 usa = world %>%
   filter(country == 'United States of America') 
+
+analysis = list(world=world,top10a=top10a,usa=usa)
+
+

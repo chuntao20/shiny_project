@@ -123,27 +123,59 @@ shinyServer(function(input, output){
   # )
   # 
   # 
-  # output$brand_country = renderGvis(
-  #   
-  # )
-
-
-  output$by_ownership = renderPlot({
+  output$brand_country = renderPlot({
     
-    input$brand %>%
-      group_by(country,ownership_type) %>%
-      summarise(num = n()) %>%
-      ggplot(aes(x=reorder(country,num),y=num)) +
-      geom_bar(aes(fill=ownership_type),stat='identity',position='dodge') +
-      theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))
+    world %>%
+      group_by(continent) %>%
+      summarise(num = sum(brand==input$brand2)) %>%
+      ggplot(aes(x=continent,y=num)) +
+      geom_bar(fill='dark green',stat='identity',position='dodge') +
+      theme_bw() +
+      geom_text(aes(label=num), vjust = -0.7)+
+      ylab('') +
+      xlab('') +
+      ggtitle('Number of store by brand in continents') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20')) +
+      theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
 
   })
 
 
-  # output$avg_store_by_continent = renderGvis(
-  #   
-  # )
-  
+  output$by_ownership = renderPlot({
+    
+    world %>%
+      filter(country %in% input$brand1) %>%
+      group_by(country,ownership_type) %>%
+      summarise(num = n()) %>%
+      ggplot(aes(x=reorder(country,num),y=num)) +
+      geom_bar(aes(fill=ownership_type),stat='identity',position='dodge') +
+      theme(axis.text.x = element_text(angle = 30, vjust = 0.5, hjust=1))
+
+  })
+
+
+  output$ownership_country = renderPlot({
+    world %>%
+      group_by(continent) %>%
+      summarise(ratio = mean(ownership_type==input$ownership2)) %>%
+      ggplot(aes(x=continent,y=ratio)) +
+       geom_bar(fill='dark green',stat='identity',position='dodge') +
+       theme_bw() +
+       geom_text(aes(label=round(ratio,2)), vjust = -0.7)+
+       ylab('') +
+       xlab('') +
+       ggtitle('Ratio of ownership type by continent') +
+       theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20')) +
+       theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust=1))
+
+  })
+
   
   
   #-------------table------------------
