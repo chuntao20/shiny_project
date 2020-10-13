@@ -138,7 +138,7 @@ shinyServer(function(input, output){
     world %>%
       group_by(continent) %>%
       summarise(num = sum(brand==input$brand2)) %>%
-      ggplot(aes(x=continent,y=num)) +
+      ggplot(aes(x=reorder(continent,num),y=num)) +
       geom_bar(fill='dark green',stat='identity',position='dodge') +
       theme_bw() +
       geom_text(aes(label=num), vjust = -0.7)+
@@ -171,7 +171,7 @@ shinyServer(function(input, output){
     world %>%
       group_by(continent) %>%
       summarise(ratio = mean(ownership_type==input$ownership2)) %>%
-      ggplot(aes(x=continent,y=ratio)) +
+      ggplot(aes(x=reorder(continent,ratio),y=ratio)) +
        geom_bar(fill='dark green',stat='identity',position='dodge') +
        theme_bw() +
        geom_text(aes(label=round(ratio,2)), vjust = -0.7)+
