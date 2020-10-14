@@ -64,6 +64,8 @@ dashboardPage(
               
               h3('Data Resources:'),
               
+              h4('Starbucks Location: https://www.kaggle.com/starbucks/store-locations'),
+              
               h4('country code: https://datahub.io/core/country-list#data'),
               
               h4('GDP: https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?end=2016&start=2015'),
