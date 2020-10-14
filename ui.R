@@ -22,6 +22,10 @@ dashboardPage(
                    tabName = 'analysis', icon = icon('chart-bar')
                    ),
           
+          menuItem('Analysis 2',
+                   tabName = 'analysis2', icon = icon('chart-bar')
+                   ),
+          
           menuItem('Data',
                    tabName = 'data',icon = icon('database')
                    )
@@ -45,14 +49,30 @@ dashboardPage(
               h3('The Shiny dashboard includes 4 tads. The overview tab gives a breif introduction of the project. The global presents tab shows the geographic location for all Starbucks stores. The Analysis tabs shows the store distribution by brands and ownership types. The data tab is the original dataset used in the project.'),
       
               br(),
+              br(),
               
-              h2("About Author"),
+              h3("About Author"),
               
-              h3('Chun has a master degree in Education Psychology from University of Pennsylvania.'),
+              h4('Chun has a master degree in Education Psychology from University of Pennsylvania.'),
               
-              h2("Github"),
+              h3("Github"),
               
-              h3('https://github.com/chuntao20/shiny_project')
+              h4('https://github.com/chuntao20/shiny_project'),
+              
+              br(),
+              br(),
+              
+              h3('Data Resources:'),
+              
+              h4('country code: https://datahub.io/core/country-list#data'),
+              
+              h4('GDP: https://data.worldbank.org/indicator/NY.GDP.MKTP.CD?end=2016&start=2015'),
+              
+              h4('Corruption: https://data.world/bchamptx/2015-corruption-v-gdp'),
+              
+              h4('Coffee consumption: http://datatopics.worldbank.org/consumption/detail'),
+              
+              h4('Population: https://population.un.org/wpp/Download/Standard/CSV')
               
               ),
       
@@ -132,25 +152,21 @@ dashboardPage(
               )
       ),
       
-      ####################################################################
-      #tabItem(tabName = 'analysis2', h2("Expansion Strategy Analysis"),
-              
-              
-      #        fluidRow(
-      #          box(htmlOutput('by_brand'), #select full data/usa/top10
-      #              height=350),
-       #         box(htmlOutput('brand_country'), #select individual country
-      #              height=350)
-      #        ),
-              
-      #        fluidRow(
-       #         box(htmlOutput('by_ownership'), #select full data/usa/top10
-      #              height=350),
-       #         box(htmlOutput('avg_store_by_continent'), #select individual country
-       #             height=350)
-      #        )
-      #),
-      ####################################################################
+     
+      tabItem(tabName = 'analysis2', h2("Expansion Strategy Analysis 2"),
+
+
+              fluidRow(
+                box(),
+                box()
+              ),
+
+              fluidRow(
+                box(),
+                box()
+              )
+      ),
+      
       
       tabItem(
               tabName = 'data', 
