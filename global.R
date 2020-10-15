@@ -44,4 +44,6 @@ usa = world %>%
 
 analysis = list(world=world,top10a=top10a,usa=usa)
 
+pop_gdp = read.csv('pop_gdp.csv',header=T)
+
 

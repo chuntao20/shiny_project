@@ -109,6 +109,16 @@ dashboardPage(
       tabItem(
               tabName = 'analysis', h2("Expansion Strategy Analysis"),
               
+              
+              fluidRow(
+                box(plotOutput('pop_gdp'),width=8),
+                box(' ',
+                    selectizeInput(inputId = "pop_gdp",
+                                   label = "Select a metric",
+                                   choices = unique(pop_gdp$feature)),
+                    width=4)
+              ),
+              
 
               fluidRow(
                 box(plotOutput('by_brand'), #select full data/usa/top10
