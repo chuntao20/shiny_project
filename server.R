@@ -153,7 +153,7 @@ shinyServer(function(input, output){
       geom_text(aes(label=total), vjust = -0.7)+
       ylab('') +
       xlab('') +
-      ggtitle('Number of countries in each continent has Starbucks stores') +
+      ggtitle('Number of countries in each continent that has Starbucks stores') +
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),

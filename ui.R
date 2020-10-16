@@ -117,7 +117,6 @@ dashboardPage(
               
                  box(plotOutput('store_by_continent'),
                      width=6)
-
                )
               
               
@@ -130,8 +129,9 @@ dashboardPage(
               
               fluidRow(
                 box(plotOutput('pop_gdp'),width=8),
-                box(h4('Countries has Starbucks stores show stronger perfromance in metrics. Basiclly in every continent, Starbucks stores appear in the countries that have higher average GDP, higher population and higher GDP per capita. '),
-                    h4('Note: Outliers are excluded in the GDP graph (USA and China), and the population graph(China and India'),
+                box(h4('Countries has Starbucks stores show stronger perfromance in economic indicators. Basically, in every continent, Starbucks stores appear in the countries that have higher average GDP, higher population and higher GDP per capita. '),
+                    br(),
+                    h4('Note: Outliers are excluded in the GDP graph (USA and China), and in the population graph(China and India)'),
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(pop_gdp$feature)),
@@ -140,61 +140,72 @@ dashboardPage(
               
 
               fluidRow(
-                box(plotOutput('by_brand'), #select full data/usa/top10
-                    width=5),
-                box(plotOutput('brand_country'), 
-                   width=5),
-                box('Despite the famous brand Starbuck, Starbucks also have a few separate brand and concepts, namely Teavana, Evolution Fresh, and Coffee House Holdings. However, you will only see the less famous brands in the United States. Select a brand in the box to see.',
-                    selectizeInput(inputId = "brand2",
-                                   label = "Select a brand",
-                                   choices = unique(world$brand)),
-                    width=2)
+                
                   
                 ),
             
               fluidRow(
-                box(radioButtons('brand1',label='Select a dataset:',
-                                       choices = analysis),width=5
-                   )
+                
         
                 ),
       
 
               fluidRow(
+                
+              ),
+              
+              fluidRow(
+                
+                )
+      
+          
+      ),
+      
+     
+      tabItem(
+              tabName = 'analysis2', h2("Expansion Strategy Analysis 2"),
+
+
+              fluidRow(
+                box(plotOutput('by_brand'), #select full data/usa/top10
+                    width=5),
+                box(plotOutput('brand_country'), 
+                    width=5),
+                box('Despite the famous brand Starbuck, Starbucks also have a few separate brand and concepts, namely Teavana, Evolution Fresh, and Coffee House Holdings. However, you will only see the less famous brands in the United States. Select a brand in the box to see.',
+                    selectizeInput(inputId = "brand2",
+                                   label = "Select a brand",
+                                   choices = unique(world$brand)),
+                    width=2)
+                
+              ),
+              
+              fluidRow(
+                box(radioButtons('brand1',label='Select a dataset:',
+                                 choices = analysis),width=5
+                )
+                
+              ),
+              
+              
+              fluidRow(
                 box(plotOutput('by_ownership'), #select full data/usa/top10
-                   width=5),
+                    width=5),
                 box(plotOutput('ownership_country'), 
-                   width=5),
+                    width=5),
                 box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent using different strategies.',
-                   selectizeInput(inputId = "ownership2",
+                    selectizeInput(inputId = "ownership2",
                                    label = "Select an ownership type",
                                    choices = unique(world$ownership_type)),
-                   width=2)
+                    width=2)
               ),
               
               fluidRow(
                 box(radioButtons('ownership1',label='Select a dataset:',
                                  choices = analysis),width=5
-                ),
+                )
                 
                 
                 
-                
-              )
-      ),
-      
-     
-      tabItem(tabName = 'analysis2', h2("Expansion Strategy Analysis 2"),
-
-
-              fluidRow(
-                box(),
-                box()
-              ),
-
-              fluidRow(
-                box(),
-                box()
               )
       ),
       
