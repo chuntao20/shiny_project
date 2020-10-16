@@ -19,18 +19,6 @@ shinyServer(function(input, output){
     infoBox("Average # of stores per country", avg_country)
   })
 
-  # output$map = renderGvis({
-  #   gvisGeoChart(
-  #     world_store,
-  #     locationvar = "country",
-  #     #numvar = "total",
-  #     hovervar = "country",
-  #     options = list(region='countries',height=350,
-  #                    dataMode='regions',
-  #                    colors='[074E38]')
-  # 
-  #      )
-  #  })
   
   output$map <- renderLeaflet({
     
@@ -41,31 +29,7 @@ shinyServer(function(input, output){
   })
   
 
-  # 
-  # output$map = renderPlotly({
-  #   g <- list(
-  #     scope = 'world',
-  #     showland = TRUE,
-  #     landcolor = toRGB('light gray'),
-  #     showlakes = TRUE,
-  #     lakecolor = toRGB('white')
-  #   )
-  #   
-  #   world %>%
-  #     filter(Year %in% input$Year) %>%
-  #     group_by(City) %>%
-  #     summarize(Approvals = sum(Initial_Approvals), Denials = sum(Initial_Denials),
-  #               C_Approvals = sum(Continuing_Approvals), C_Denials = sum(Continuing_Denials)) %>%
-  #     arrange(desc(Approvals)) %>%
-  #     top_n(50, Approvals) %>%
-  #     left_join(coords_cities, by="City") %>%
-  #     plot_geo(lat = ~lat, lon = ~lon, color = ~Approvals, size=~(Approvals)) %>%
-  #     add_markers(hovertext = ~(paste("City:", City, "\nNo. of Approvals:", Approvals))) %>%
-  #     layout(title = 'Top cities with H-1B Visa approvals in the selected Years', geo=g)
-  # })
   
-  # 
-  # 
   output$store_by_top10 = renderPlot({
     
     if (input$city_country == 'Country'){
@@ -101,26 +65,7 @@ shinyServer(function(input, output){
     }
 
   })
-  # 
-  # 
-  # output$store_by_top10 = renderPlotly({
-  #   world %>%
-  #     group_by(country) %>%
-  #     summarise(total=n()) %>%
-  #     arrange(desc(total)) %>%
-  #     top_n(10) %>%
-  #     plot_ly(x=~(factor(country, levels=unique(country))[order(total, decreasing = TRUE)]),
-  #             y=total,type='bar') %>%
-  #     layout(title = "Top 10 countries with highest number of Starbucks stores",
-  #            xaxis = list(title = "country"),
-  #            yaxis = list(title = "number of stores")
-  # 
-  #     )
-  # 
-  # })
-  # 
-  # 
-  # 
+  
   
   output$store_by_continent = renderPlot({
     
@@ -169,11 +114,7 @@ shinyServer(function(input, output){
   #-------------analysis------------------
   
   
-  # output$by_brand = renderGvis(
-  #   
-  # )
-  # 
-  # 
+  
   output$pop_gdp = renderPlot({
     g = pop_gdp %>%
       filter(feature == input$pop_gdp) %>%
@@ -317,6 +258,34 @@ shinyServer(function(input, output){
     
   })
 
+  
+  output$ownermap = renderLeaflet({
+    
+    
+    pal <- colorFactor(c("darkgreen", "darkred", "black",'lightgreen'), domain = c("Company Owned", "Joint Venture","Licensed",'Franchise'))
+    
+    leaflet(cpi_clean) %>% addTiles() %>%
+      addCircleMarkers(
+        radius=3,
+        color = ~pal(ownership_type),
+        stroke = FALSE, fillOpacity = 0.5
+      )
+    
+    
+  })
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
   
   #-------------table------------------

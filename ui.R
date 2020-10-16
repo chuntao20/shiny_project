@@ -186,49 +186,54 @@ dashboardPage(
                 
                 box(plotOutput('cpi2'),width = 5)
               ),
-
-
-              fluidRow(
-                box(plotOutput('by_brand'), #select full data/usa/top10
-                    width=5),
-                box(plotOutput('brand_country'), 
-                    width=5),
-                box('Despite the famous brand Starbuck, Starbucks also have a few separate brand and concepts, namely Teavana, Evolution Fresh, and Coffee House Holdings. However, you will only see the less famous brands in the United States. Select a brand in the box to see.',
-                    selectizeInput(inputId = "brand2",
-                                   label = "Select a brand",
-                                   choices = unique(world$brand)),
-                    width=2)
-                
-              ),
-              
-              fluidRow(
-                box(radioButtons('brand1',label='Select a dataset:',
-                                 choices = analysis),width=5
-                )
-                
-              ),
               
               
               fluidRow(
-                box(plotOutput('by_ownership'), #select full data/usa/top10
-                    width=5),
-                box(plotOutput('ownership_country'), 
-                    width=5),
-                box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent using different strategies.',
-                    selectizeInput(inputId = "ownership2",
-                                   label = "Select an ownership type",
-                                   choices = unique(world$ownership_type)),
-                    width=2)
-              ),
-              
-              fluidRow(
-                box(radioButtons('ownership1',label='Select a dataset:',
-                                 choices = analysis),width=5
-                )
-                
-                
-                
+                box(leafletOutput('ownermap'),width=9)
               )
+
+
+              # fluidRow(
+              #   box(plotOutput('by_brand'), #select full data/usa/top10
+              #       width=5),
+              #   box(plotOutput('brand_country'), 
+              #       width=5),
+              #   box('Despite the famous brand Starbuck, Starbucks also have a few separate brand and concepts, namely Teavana, Evolution Fresh, and Coffee House Holdings. However, you will only see the less famous brands in the United States. Select a brand in the box to see.',
+              #       selectizeInput(inputId = "brand2",
+              #                      label = "Select a brand",
+              #                      choices = unique(world$brand)),
+              #       width=2)
+              #   
+              # ),
+              # 
+              # fluidRow(
+              #   box(radioButtons('brand1',label='Select a dataset:',
+              #                    choices = analysis),width=5
+              #   )
+              #   
+              # ),
+              # 
+              # 
+              # fluidRow(
+              #   box(plotOutput('by_ownership'), #select full data/usa/top10
+              #       width=5),
+              #   box(plotOutput('ownership_country'), 
+              #       width=5),
+              #   box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent using different strategies.',
+              #       selectizeInput(inputId = "ownership2",
+              #                      label = "Select an ownership type",
+              #                      choices = unique(world$ownership_type)),
+              #       width=2)
+              # ),
+              # 
+              # fluidRow(
+              #   box(radioButtons('ownership1',label='Select a dataset:',
+              #                    choices = analysis),width=5
+              #   )
+              #   
+                
+                
+              # )
       ),
       
       

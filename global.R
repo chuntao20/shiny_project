@@ -49,4 +49,7 @@ pop_gdp = read.csv('pop_gdp.csv',header=T)
 
 cpi_join = read.csv('cpi_join.csv',header = T)
 
+cpi_clean = cpi_join %>%
+  filter(!is.na(lon)&!is.na(lat))
+
 cpi1 = c('Absolute Number','Ratio')
