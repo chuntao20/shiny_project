@@ -18,11 +18,11 @@ dashboardPage(
                    tabName = 'summary', icon = icon('globe')
                    ),
           
-          menuItem('Analysis',
+          menuItem('General Expansion Strategy',
                    tabName = 'analysis', icon = icon('chart-bar')
                    ),
           
-          menuItem('Analysis 2',
+          menuItem('Foreign Market Entry Strategy',
                    tabName = 'analysis2', icon = icon('chart-bar')
                    ),
           
@@ -163,19 +163,23 @@ dashboardPage(
       
      
       tabItem(
-              tabName = 'analysis2', h2("Expansion Strategy Analysis 2"),
+              tabName = 'analysis2', h2("Foreign Market Entry Strategy"),
               
               fluidRow(
+                box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),
+                    width=6),
                 box(h4(''),
                     selectizeInput(inputId = "cpi1",
                                    label = "Select a View",
                                    choices = unique(cpi1)),
-                    width=6)
-              ),
+                    width=3),
+                box('select an area',
+                    width=3)
+               ),
               
               
               fluidRow(
-                box(plotOutput('cpi1'),width = 6
+                box(plotOutput('cpi1'),width = 7
                   
                 ),
                 

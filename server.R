@@ -310,8 +310,10 @@ shinyServer(function(input, output){
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
-      scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') +
-      geom_text(aes(x=has_jv,y=avg_cpi*15),label=c('avg_CPI 50','avg_CPI 46'),color='darkred',vjust= 2.5,hjust=-0.1,face = "bold")
+      scale_fill_wsj(palette = "black_green",name='') + 
+      geom_text(aes(x=has_jv,y=avg_cpi*15),label=c('avg_CPI 50','avg_CPI 46'),color='darkred',vjust= 2.5,hjust=-0.1)
+    
+    #scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') +
     
   })
 
