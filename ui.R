@@ -164,6 +164,24 @@ dashboardPage(
      
       tabItem(
               tabName = 'analysis2', h2("Expansion Strategy Analysis 2"),
+              
+              fluidRow(
+                box(h4(''),
+                    selectizeInput(inputId = "cpi1",
+                                   label = "Select a View",
+                                   choices = unique(cpi1)),
+                    width=6)
+              ),
+              
+              
+              fluidRow(
+                box(plotOutput('cpi1'),width = 6
+                  
+                ),
+                
+                
+                box(plotOutput('cpi2'),width = 5)
+              ),
 
 
               fluidRow(

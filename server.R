@@ -257,6 +257,63 @@ shinyServer(function(input, output){
        theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust=1))
 
   })
+  
+  
+  #-------------------------analysis 2-------------------------
+  
+  output$cpi1 = renderPlot({
+    
+    cpi = cpi_join %>%
+      mutate(is_usa=ifelse(country=='United States of America',country,continent)) %>%
+      group_by(is_usa,ownership_type) %>%
+      summarise(num_store=n()) %>%
+      arrange(desc(num_store)) %>%
+      ggplot(aes(x=reorder(is_usa,num_store),y=num_store))+
+      scale_fill_wsj(palette = "black_green",name='')+
+      theme_bw() +
+      ylab('') +
+      xlab('') +
+      ggtitle('Starbuck stores ownership type') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      theme(axis.text.x = element_text(angle = 30, vjust = 0.5, hjust=1))
+    
+     if(input$cpi1 == 'Absolute Number'){
+       cpi + geom_col(aes(fill=ownership_type),position='dodge',width=0.8)
+     } else {
+       cpi + geom_col(aes(fill=ownership_type),position='fill',width=0.8)
+     }
+    
+  })
+  
+  
+  
+  output$cpi2 = renderPlot({
+    
+    cpi_join %>%
+      filter(continent=='Asia') %>%
+      mutate(has_jv=ifelse(country %in% jv_asia$country,'Has_JV','No_JV')) %>%
+      group_by(has_jv,country,CPI2015) %>%
+      summarise(num_store=n()) %>%
+      group_by(has_jv) %>%
+      summarise(avg_cpi=mean(CPI2015),avg_store=mean(num_store))%>%
+      ggplot(aes(x=has_jv,y=avg_store))+
+      geom_col(aes(fill=has_jv),width=0.6) +
+      geom_point(aes(x=has_jv,y=avg_cpi*15),size=4,color='darkred')+
+      theme_bw() +
+      ylab('') +
+      xlab('') +
+      ggtitle('Average # of stores and CPI index in Asia countries') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') +
+      geom_text(aes(x=has_jv,y=avg_cpi*15),label=c('avg_CPI 50','avg_CPI 46'),color='darkred',vjust= 2.5,hjust=-0.1,face = "bold")
+    
+  })
 
   
   

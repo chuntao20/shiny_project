@@ -5,6 +5,7 @@ library(DT)
 library(dplyr)
 library(leaflet)
 library(plotly)
+library(ggthemes)
 
 
 world = read.csv('world.csv',header=T)
@@ -46,4 +47,6 @@ analysis = list(world=world,top10a=top10a,usa=usa)
 
 pop_gdp = read.csv('pop_gdp.csv',header=T)
 
+cpi_join = read.csv('cpi_join.csv',header = T)
 
+cpi1 = c('Absolute Number','Ratio')
