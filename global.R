@@ -8,12 +8,7 @@ library(plotly)
 
 
 world = read.csv('world.csv',header=T)
-
-
-country = unique(world$country)
-ownership = unique(world$ownership_type)
-brand = unique(world$brand)
-continent = unique(world$continent)
+topcity = read.csv('topcity.csv',header=T)
 
 
 world_store = world %>%
@@ -25,6 +20,9 @@ top10 = world %>%
   summarise(total=n()) %>%
   arrange(desc(total)) %>%
   top_n(10) 
+
+
+city_country = c('Country','City')
 
 top10a = world %>%
   filter(country %in% top10$country)

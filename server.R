@@ -68,6 +68,8 @@ shinyServer(function(input, output){
   # 
   output$store_by_top10 = renderPlot({
     
+    if (input$city_country == 'Country'){
+    
       top10 %>% 
       ggplot(aes(x=reorder(country,total),y=total)) +
        geom_col(fill='dark green') +
@@ -77,11 +79,26 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Number of stores in top 10 country') +
+       ggtitle('Top 10 country with the most Starbucks stores') +
        theme(text=element_text(size=14,face = "bold"),
              line=element_blank(),
              panel.border = element_blank(),
              axis.line = element_line(color='grey20'))
+    } else {
+     topcity %>%
+       ggplot(aes(x=reorder(city,total),y=total)) +
+       geom_col(fill='dark green') +
+       geom_text(aes(label=total),  hjust=-0.1)+
+       theme_bw() +
+       coord_flip() +
+       ylab('') +
+       xlab('') +
+       ggtitle('Top 10 city with the most Starbucks stores') +
+       theme(text=element_text(size=14,face = "bold"),
+             line=element_blank(),
+             panel.border = element_blank(),
+             axis.line = element_line(color='grey20'))
+    }
 
   })
   # 
@@ -154,7 +171,7 @@ shinyServer(function(input, output){
     if (input$pop_gdp == 'GDP'){
       g+ylim(0,2e12)
     } else if (input$pop_gdp == 'Population') {
-      g+ylim(0,2e8)
+      g+ylim(0,4e8)
     } else {
       g
     }

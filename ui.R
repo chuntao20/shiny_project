@@ -102,8 +102,18 @@ dashboardPage(
                  box(plotOutput('store_by_continent'),
                      width=6)
 
-               )
-      ),
+               ),
+              
+              fluidRow(
+                
+                box(h4('See the top 10 city or country have the most Starbuck stores:'),
+                    selectizeInput(inputId = "city_country",
+                                   label = "Select a option",
+                                   choices = unique(city_country)
+                                  ),
+                    width=6)
+                )
+             ),
       
       
       tabItem(
@@ -136,7 +146,7 @@ dashboardPage(
               fluidRow(
                 box(radioButtons('brand1',label='Select a dataset:',
                                        choices = analysis),width=5
-                )
+                   )
         
                 ),
       
