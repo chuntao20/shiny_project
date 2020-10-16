@@ -134,25 +134,30 @@ shinyServer(function(input, output){
   # 
   # 
   output$pop_gdp = renderPlot({
-    pop_gdp %>%
-      mutate(gdp_per_capita = (gdp)/(total_pop*1000)) %>%
-      filter(!is.na(continent)) %>%
-      mutate(present = ifelse(!is.na(num_of_store),'Present','Not Present')) %>%
+    g = pop_gdp %>%
+      filter(feature == input$pop_gdp) %>%
       group_by(continent, present) %>%
-      ggplot(aes(x=continent,y=pop_gdp$feature)) + 
+      ggplot(aes(x=continent,y=value)) + 
       geom_boxplot(aes(fill=present)) +
       theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
       theme_bw() +
       coord_flip() +
       ylab('') +
       xlab('') +
-      ggtitle('Population for countries have and not have Starbucks') +
+      ggtitle('GDP and population for countries have and not have Starbucks') +
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
-      scale_fill_manual(values = c('Present'="darkgreen", 'Not Present'="grey")) +
-      ylim(0,5e5) 
+      scale_fill_manual(values = c('Present'="darkgreen", 'Not Present'="grey"))
+    
+    if (input$pop_gdp == 'GDP'){
+      g+ylim(0,2e12)
+    } else if (input$pop_gdp == 'Population') {
+      g+ylim(0,2e8)
+    } else {
+      g
+    }
     
   })
   
