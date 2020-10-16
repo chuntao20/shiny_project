@@ -24,6 +24,8 @@ top10 = world %>%
 
 city_country = c('Country','City')
 
+store_continent = c('Number of Starbuck stores by continent', 'Number of countries that have Starbucks stores')
+
 top10a = world %>%
   filter(country %in% top10$country)
 

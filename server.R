@@ -121,7 +121,11 @@ shinyServer(function(input, output){
   # 
   # 
   # 
+  
   output$store_by_continent = renderPlot({
+    
+    if(input$store_continent == 'Number of Starbuck stores by continent') {
+    
     world %>%
       group_by(continent) %>%
       summarise(total=n()) %>%
@@ -137,6 +141,26 @@ shinyServer(function(input, output){
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))
+    } else {
+    world%>%
+      group_by(continent,country) %>%
+      summarise(total=n()) %>%
+      group_by(continent) %>%
+      summarise(total=n()) %>%
+      ggplot(aes(x=reorder(continent,total),y=total)) +
+      geom_col(fill='dark green') +
+      theme_bw() +
+      geom_text(aes(label=total), vjust = -0.7)+
+      ylab('') +
+      xlab('') +
+      ggtitle('Number of countries in each continent has Starbucks stores') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
+    }
+    
   })
 
   

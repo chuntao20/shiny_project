@@ -93,6 +93,22 @@ dashboardPage(
                 box(h4('In 2017, 26057 Starbucks stores are open in 73 countries across the world. Among them, USA stores alone constitute 52.2% of the total. USA and Candana together make the North America the top 1 market of Starbucks. China with 2734 stores makes the second place in store number rank. While Asia become the second largest maket in the world.'),
                     width=3)
               ),
+              
+              fluidRow(
+                
+                box(h4(' See the top 10 country or city have the most Starbuck stores:'),
+                    selectizeInput(inputId = "city_country",
+                                   label = " Select a option",
+                                   choices = unique(city_country)
+                    ),
+                    width=6),
+                box(h4(' See Starbuck stores in each continent:'),
+                    selectizeInput(inputId = "store_continent",
+                                   label = " Select a option",
+                                   choices = unique(store_continent)
+                    ),
+                    width=6)
+              ),
 
               fluidRow(
               
@@ -102,17 +118,9 @@ dashboardPage(
                  box(plotOutput('store_by_continent'),
                      width=6)
 
-               ),
+               )
               
-              fluidRow(
-                
-                box(h4('See the top 10 city or country have the most Starbuck stores:'),
-                    selectizeInput(inputId = "city_country",
-                                   label = "Select a option",
-                                   choices = unique(city_country)
-                                  ),
-                    width=6)
-                )
+              
              ),
       
       
@@ -122,7 +130,8 @@ dashboardPage(
               
               fluidRow(
                 box(plotOutput('pop_gdp'),width=8),
-                box(' ',
+                box(h4('Countries has Starbucks stores show stronger perfromance in metrics. Basiclly in every continent, Starbucks stores appear in the countries that have higher average GDP, higher population and higher GDP per capita. '),
+                    h4('Note: Outliers are excluded in the GDP graph (USA and China), and the population graph(China and India'),
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(pop_gdp$feature)),
