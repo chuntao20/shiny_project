@@ -170,6 +170,25 @@ shinyServer(function(input, output){
     
   })
   
+  output$pop_store2 = renderPlot({
+    pop_plot %>%
+      filter(Continent_Name==input$pop_store) %>%
+      select(is_top,country,num_store,total_pop) %>%
+      arrange(desc(total_pop)) %>%
+      ggplot(aes(x=reorder(country,total_pop),y=total_pop)) +
+      geom_col(aes(fill=is_top)) +
+      coord_flip() +
+      theme_bw() +
+      ylab('') +
+      xlab('') +
+      ggtitle('Population distribution') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"))
+  })
+  
   
   output$brand_country = renderPlot({
     
