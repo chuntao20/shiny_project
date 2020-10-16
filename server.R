@@ -143,7 +143,32 @@ shinyServer(function(input, output){
     
   })
   
-  
+  output$pop_store = renderPlot({
+    
+    
+    pop_plot %>%
+      filter(Continent_Name==input$pop_store) %>%
+      select(is_top,country,num_store,total_pop) %>%
+      ggplot(aes(x=total_pop,y=num_store)) +
+      geom_point(aes(color=is_top),size=2)+
+      theme_bw() +
+      ylab('') +
+      xlab('') +
+      ggtitle('Population distribution') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
+      scale_x_log10()+
+      scale_y_log10()+
+      scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                    labels = trans_format("log10", math_format(10^.x)))+
+      geom_vline(xintercept = mean(pop_plot$total_pop), color = "darkred", size=0.5) + 
+      geom_text(aes(x=10e8,y=5),label=c('average population'),hjust=0.5,color='black')
+    
+    
+  })
   
   
   output$brand_country = renderPlot({
@@ -262,7 +287,7 @@ shinyServer(function(input, output){
   output$ownermap = renderLeaflet({
     
     
-    pal <- colorFactor(c("darkgreen", "darkred", "black",'lightgreen'), domain = c("Company Owned", "Joint Venture","Licensed",'Franchise'))
+    pal <- colorFactor(c("darkgreen", "darkred", "green",'black'), levels = c("Company Owned", "Joint Venture","Licensed",'Franchise'))
     
     leaflet(cpi_clean) %>% addTiles() %>%
       addCircleMarkers(
@@ -271,6 +296,7 @@ shinyServer(function(input, output){
         stroke = FALSE, fillOpacity = 0.5
       )
     
+   
     
   })
   

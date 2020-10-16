@@ -53,3 +53,6 @@ cpi_clean = cpi_join %>%
   filter(!is.na(lon)&!is.na(lat))
 
 cpi1 = c('Absolute Number','Ratio')
+
+
+pop_plot = read.csv('pop_plot.csv',header = T)
