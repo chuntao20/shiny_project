@@ -137,7 +137,7 @@ dashboardPage(
                                    choices = unique(pop_gdp$feature)),
                     selectizeInput(inputId = "pop_store",
                                    label = "Select a continent",
-                                   choices = unique(pop_plot$Continent_Name)),
+                                   choices = unique(geo_select)),
                     width=4)
               ),
               

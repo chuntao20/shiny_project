@@ -56,3 +56,15 @@ cpi1 = c('Absolute Number','Ratio')
 
 
 pop_plot = read.csv('pop_plot.csv',header = T)
+
+geo_select = c('World','North America','Asia','Europe','South America', 'Oceania','Africa')
+
+
+
+
+
+
+
+
+
+

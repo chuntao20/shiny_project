@@ -145,6 +145,27 @@ shinyServer(function(input, output){
   
   output$pop_store = renderPlot({
     
+    if(input$pop_store=='World'){
+      pop_plot %>%
+        select(is_top,country,num_store,total_pop) %>%
+        ggplot(aes(x=total_pop,y=num_store)) +
+        geom_point(aes(color=is_top),size=2)+
+        theme_bw() +
+        ylab('') +
+        xlab('') +
+        ggtitle('Population distribution') +
+        theme(text=element_text(size=14,face = "bold"),
+              line=element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color='grey20'))+
+        scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
+        scale_x_log10()+
+        scale_y_log10()+
+        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                      labels = trans_format("log10", math_format(10^.x)))+
+        geom_vline(xintercept = mean(pop_plot$total_pop), color = "darkred", size=0.5) + 
+        geom_text(aes(x=10e8,y=5),label=c('average population'),hjust=0.5,color='black')
+    } else {
     
     pop_plot %>%
       filter(Continent_Name==input$pop_store) %>%
@@ -167,14 +188,30 @@ shinyServer(function(input, output){
       geom_vline(xintercept = mean(pop_plot$total_pop), color = "darkred", size=0.5) + 
       geom_text(aes(x=10e8,y=5),label=c('average population'),hjust=0.5,color='black')
     
-    
+    }
   })
   
   output$pop_store2 = renderPlot({
+    if(input$pop_store=='World'){
+      pop_plot %>%
+        select(is_top,country,num_store,total_pop) %>%
+        top_n(30) %>%
+        ggplot(aes(x=reorder(country,total_pop),y=total_pop)) +
+        geom_col(aes(fill=is_top)) +
+        coord_flip() +
+        theme_bw() +
+        ylab('') +
+        xlab('') +
+        ggtitle('Population distribution') +
+        theme(text=element_text(size=14,face = "bold"),
+              line=element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color='grey20'))+
+        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"))
+    } else {
     pop_plot %>%
       filter(Continent_Name==input$pop_store) %>%
       select(is_top,country,num_store,total_pop) %>%
-      arrange(desc(total_pop)) %>%
       ggplot(aes(x=reorder(country,total_pop),y=total_pop)) +
       geom_col(aes(fill=is_top)) +
       coord_flip() +
@@ -187,28 +224,29 @@ shinyServer(function(input, output){
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
       scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"))
+    }
   })
   
-  
-  output$brand_country = renderPlot({
-    
-    world %>%
-      group_by(continent) %>%
-      summarise(num = sum(brand==input$brand2)) %>%
-      ggplot(aes(x=reorder(continent,num),y=num)) +
-      geom_bar(fill='dark green',stat='identity',position='dodge') +
-      theme_bw() +
-      geom_text(aes(label=num), vjust = -0.7)+
-      ylab('') +
-      xlab('') +
-      ggtitle('Number of store by brand in continents') +
-      theme(text=element_text(size=14,face = "bold"),
-            line=element_blank(),
-            panel.border = element_blank(),
-            axis.line = element_line(color='grey20')) +
-      theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
-
-  })
+  # 
+  # output$brand_country = renderPlot({
+  #   
+  #   world %>%
+  #     group_by(continent) %>%
+  #     summarise(num = sum(brand==input$brand2)) %>%
+  #     ggplot(aes(x=reorder(continent,num),y=num)) +
+  #     geom_bar(fill='dark green',stat='identity',position='dodge') +
+  #     theme_bw() +
+  #     geom_text(aes(label=num), vjust = -0.7)+
+  #     ylab('') +
+  #     xlab('') +
+  #     ggtitle('Number of store by brand in continents') +
+  #     theme(text=element_text(size=14,face = "bold"),
+  #           line=element_blank(),
+  #           panel.border = element_blank(),
+  #           axis.line = element_line(color='grey20')) +
+  #     theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
+  # 
+  # })
 
 
   output$by_ownership = renderPlot({
