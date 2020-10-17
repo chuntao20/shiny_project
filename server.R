@@ -146,14 +146,16 @@ shinyServer(function(input, output){
   output$pop_store = renderPlot({
     
     if(input$pop_store=='World'){
-      pop_plot %>%
-        select(is_top,country,num_store,total_pop) %>%
-        ggplot(aes(x=total_pop,y=num_store)) +
+      pop_gdp %>%
+        filter(present=='Present') %>%
+        filter(feature==input$pop_gdp) %>% 
+        unique() %>%
+        ggplot(aes(x=value,y=num_of_store)) +
         geom_point(aes(color=is_top),size=2)+
+        geom_smooth(method='lm',se=F,color='black')+
         theme_bw() +
         ylab('') +
         xlab('') +
-        ggtitle('Population distribution') +
         theme(text=element_text(size=14,face = "bold"),
               line=element_blank(),
               panel.border = element_blank(),
@@ -163,67 +165,77 @@ shinyServer(function(input, output){
         scale_y_log10()+
         scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
                       labels = trans_format("log10", math_format(10^.x)))+
-        geom_vline(xintercept = mean(pop_plot$total_pop), color = "darkred", size=0.5) + 
-        geom_text(aes(x=10e8,y=5),label=c('average population'),hjust=0.5,color='black')
+        ggtitle('Pop')
+      
     } else {
     
-    pop_plot %>%
-      filter(Continent_Name==input$pop_store) %>%
-      select(is_top,country,num_store,total_pop) %>%
-      ggplot(aes(x=total_pop,y=num_store)) +
-      geom_point(aes(color=is_top),size=2)+
-      theme_bw() +
-      ylab('') +
-      xlab('') +
-      ggtitle('Population distribution') +
-      theme(text=element_text(size=14,face = "bold"),
-            line=element_blank(),
-            panel.border = element_blank(),
-            axis.line = element_line(color='grey20'))+
-      scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
-      scale_x_log10()+
-      scale_y_log10()+
-      scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
-                    labels = trans_format("log10", math_format(10^.x)))+
-      geom_vline(xintercept = mean(pop_plot$total_pop), color = "darkred", size=0.5) + 
-      geom_text(aes(x=10e8,y=5),label=c('average population'),hjust=0.5,color='black')
+      
+      pop_gdp %>%
+        filter(present=='Present') %>%
+        filter(continent==input$pop_store & feature==input$pop_gdp) %>% 
+        unique() %>%
+        ggplot(aes(x=value,y=num_of_store)) +
+        geom_point(aes(color=is_top),size=2)+
+        geom_smooth(method='lm',se=F,color='black')+
+        theme_bw() +
+        ylab('') +
+        xlab('') +
+        theme(text=element_text(size=14,face = "bold"),
+              line=element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color='grey20'))+
+        scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
+        scale_x_log10()+
+        scale_y_log10()+
+        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+                      labels = trans_format("log10", math_format(10^.x)))+
+        ggtitle('Pop')
     
     }
   })
   
   output$pop_store2 = renderPlot({
     if(input$pop_store=='World'){
-      pop_plot %>%
-        select(is_top,country,num_store,total_pop) %>%
-        top_n(30) %>%
-        ggplot(aes(x=reorder(country,total_pop),y=total_pop)) +
+      
+      pop_gdp %>%
+        filter(present=='Present') %>%
+        filter(feature==input$pop_gdp) %>%
+        filter(!is.na(value)) %>%
+        unique()%>%
+        arrange(desc(value)) %>%
+        head(30) %>%
+        ggplot(aes(x=reorder(country,value),y=value)) +
         geom_col(aes(fill=is_top)) +
         coord_flip() +
         theme_bw() +
         ylab('') +
         xlab('') +
-        ggtitle('Population distribution') +
         theme(text=element_text(size=14,face = "bold"),
               line=element_blank(),
               panel.border = element_blank(),
               axis.line = element_line(color='grey20'))+
-        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"))
+        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
+        ggtitle('Title')
+      
     } else {
-    pop_plot %>%
-      filter(Continent_Name==input$pop_store) %>%
-      select(is_top,country,num_store,total_pop) %>%
-      ggplot(aes(x=reorder(country,total_pop),y=total_pop)) +
-      geom_col(aes(fill=is_top)) +
-      coord_flip() +
-      theme_bw() +
-      ylab('') +
-      xlab('') +
-      ggtitle('Population distribution') +
-      theme(text=element_text(size=14,face = "bold"),
-            line=element_blank(),
-            panel.border = element_blank(),
-            axis.line = element_line(color='grey20'))+
-      scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"))
+      
+      pop_gdp %>%
+        filter(present=='Present') %>%
+        filter(continent==input$pop_store & feature==input$pop_gdp) %>%
+        filter(!is.na(value)) %>%
+        unique()%>%
+        ggplot(aes(x=reorder(country,value),y=value)) +
+        geom_col(aes(fill=is_top)) +
+        coord_flip() +
+        theme_bw() +
+        ylab('') +
+        xlab('') +
+        theme(text=element_text(size=14,face = "bold"),
+              line=element_blank(),
+              panel.border = element_blank(),
+              axis.line = element_line(color='grey20'))+
+        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
+        ggtitle('Title')
     }
   })
   
