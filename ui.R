@@ -14,7 +14,7 @@ dashboardPage(
                    tabName = 'intro', icon = icon('thumbtack')
                    ),
           
-          menuItem('Starbucks Store Location in A Glance',
+          menuItem('Starbucks Store Location in',
                    tabName = 'summary', icon = icon('globe')
                    ),
           
@@ -22,7 +22,7 @@ dashboardPage(
                    tabName = 'analysis', icon = icon('chart-bar')
                    ),
           
-          menuItem('Foreign Market Ownership & Location Analysis',
+          menuItem('Ownership & Location Analysis',
                    tabName = 'analysis2', icon = icon('chart-bar')
                    ),
           
@@ -78,7 +78,7 @@ dashboardPage(
               ),
       
       tabItem(
-              tabName = 'summary', h2("Starbucks Store Location in A Glance"),
+              tabName = 'summary', h2("Starbucks Store Locations"),
               
               fluidRow(infoBoxOutput("num_store"),
                        infoBoxOutput("num_country"),
@@ -163,7 +163,7 @@ dashboardPage(
       
      
       tabItem(
-              tabName = 'analysis2', h2("Foreign Market Ownership & Location Analysis"),
+              tabName = 'analysis2', h2("Ownership & Location Analysis"),
               
               fluidRow(
                 box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),

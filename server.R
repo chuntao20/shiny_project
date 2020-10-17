@@ -287,16 +287,24 @@ shinyServer(function(input, output){
   
   output$cpi2 = renderPlot({
     
+    jv_country = cpi_join %>%
+      filter(ownership_type=='Joint Venture') %>%
+      group_by(country)%>%
+      select(country) %>%
+      unique()
+    
     cpi_join %>%
-      filter(continent=='Asia') %>%
-      mutate(has_jv=ifelse(country %in% jv_asia$country,'Has_JV','No_JV')) %>%
-      group_by(has_jv,country,CPI2015) %>%
+      group_by(continent,country,CPI2015) %>%
       summarise(num_store=n()) %>%
+      filter(continent %in% c('Asia','Europe','South America')) %>%
+      mutate(has_jv=ifelse(country %in% jv_country$country,'Has_JV','No_JV')) %>%
       group_by(has_jv) %>%
       summarise(avg_cpi=mean(CPI2015),avg_store=mean(num_store))%>%
       ggplot(aes(x=has_jv,y=avg_store))+
-      geom_col(aes(fill=has_jv),width=0.6) +
-      geom_point(aes(x=has_jv,y=avg_cpi*15),size=4,color='darkred')+
+      geom_col(aes(fill=has_jv),width=0.5) +
+      #geom_point(aes(x=has_jv,y=avg_store),size=4,color='darkgreen') + 
+      geom_point(aes(x=has_jv,y=avg_cpi*5),size=4,color='darkred')+
+      #geom_line(aes(x=c('Has_JV','No_JV'),y=c(48.1*5,56.2*5)),size=1,color='darkred')
       theme_bw() +
       ylab('') +
       xlab('') +
@@ -305,10 +313,9 @@ shinyServer(function(input, output){
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
-      scale_fill_wsj(palette = "black_green",name='') + 
-      geom_text(aes(x=has_jv,y=avg_cpi*15),label=c('avg_CPI 50','avg_CPI 46'),color='darkred',vjust= 2.5,hjust=-0.1)
-    
-    #scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') +
+      #scale_fill_wsj(palette = "black_green",name='') + 
+      geom_text(aes(x=has_jv,y=avg_cpi*5),label=c('avg_CPI 50','avg_CPI 56'),color='darkred',vjust= 2.5,hjust=-0.1)+
+      scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') 
     
   })
  
