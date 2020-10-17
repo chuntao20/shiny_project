@@ -129,17 +129,15 @@ dashboardPage(
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(gather$feature)),
-                    selectizeInput(inputId = "pop_store",
-                                   label = "Select a continent",
-                                   choices = unique(geo_select)),
+                  
                     width=4)
               ),
               
 
               fluidRow(
-                box(plotOutput('pop_store'),width = 6),
+                box(plotOutput('pop_store'),width = 6)
                 
-                box(plotOutput('pop_store2'),width = 6)
+                #box(plotOutput('pop_store2'),width = 6)
                   
                 ),
               
@@ -165,75 +163,31 @@ dashboardPage(
       tabItem(
               tabName = 'analysis2', h2("Ownership & Location Analysis"),
               
-              fluidRow(
-                box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),
-                    width=6),
-                box(h4(''),
-                    selectizeInput(inputId = "cpi1",
-                                   label = "Select a View",
-                                   choices = unique(cpi1)),
-                    width=3),
-                box('select an area',
-                    width=3)
-               ),
+              # fluidRow(
+              #   box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),
+              #       width=6),
+              #   box(h4(''),
+              #       selectizeInput(inputId = "cpi1",
+              #                      label = "Select a View",
+              #                      choices = unique(cpi1)),
+              #       width=3)
+              #  ),
               
               
               fluidRow(
-                box(plotOutput('cpi1'),width = 7
-                  
+                box(plotOutput('cpi1'),width = 8
                 ),
                 
-                
-                box(plotOutput('cpi2'),width = 5)
+                box(h3(''),width = 3
+                #plotOutput('cpi2'),width = 5)
+                )
               ),
               
-              
               fluidRow(
-                box(leafletOutput('ownermap'),width=9)
+                box(leafletOutput('ownermap'),width=8),
+                box(h4(''),width=3)
               )
 
-
-              # fluidRow(
-              #   box(plotOutput('by_brand'), #select full data/usa/top10
-              #       width=5),
-              #   box(plotOutput('brand_country'), 
-              #       width=5),
-              #   box('Despite the famous brand Starbuck, Starbucks also have a few separate brand and concepts, namely Teavana, Evolution Fresh, and Coffee House Holdings. However, you will only see the less famous brands in the United States. Select a brand in the box to see.',
-              #       selectizeInput(inputId = "brand2",
-              #                      label = "Select a brand",
-              #                      choices = unique(world$brand)),
-              #       width=2)
-              #   
-              # ),
-              # 
-              # fluidRow(
-              #   box(radioButtons('brand1',label='Select a dataset:',
-              #                    choices = analysis),width=5
-              #   )
-              #   
-              # ),
-              # 
-              # 
-              # fluidRow(
-              #   box(plotOutput('by_ownership'), #select full data/usa/top10
-              #       width=5),
-              #   box(plotOutput('ownership_country'), 
-              #       width=5),
-              #   box('There are four types of ownership for each Stabucks store: Company owned, Licensed, Joint-Venture, and Franchise. Starbucks expands in each continent using different strategies.',
-              #       selectizeInput(inputId = "ownership2",
-              #                      label = "Select an ownership type",
-              #                      choices = unique(world$ownership_type)),
-              #       width=2)
-              # ),
-              # 
-              # fluidRow(
-              #   box(radioButtons('ownership1',label='Select a dataset:',
-              #                    choices = analysis),width=5
-              #   )
-              #   
-                
-                
-              # )
       ),
       
       
