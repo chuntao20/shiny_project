@@ -2,43 +2,52 @@
 shinyServer(function(input, output){
   
   
-#-------------summary------------------
+#-------------Global Presents Tab Outputs------------------
   
+  #------------------Info boxes----------------------
   output$num_store <- renderInfoBox({
-    num_store <- nrow(world)
+    num_store <- nrow(store_level)
     infoBox("Number of stores", num_store)
   })
 
   output$num_country <- renderInfoBox({
-    num_country <- length(unique(world$country))
+    num_country <- length(unique(store_level$country))
     infoBox("Number of countries", num_country)
   })
   
   output$avg_country <- renderInfoBox({
-    avg_country <- round(mean(world_store$total),1)
+    
+    mean <- country_level %>%
+      filter(type!='No Starbucks') %>%
+      summarise(mean = round(mean(num_of_store,na.rm=T),1))
+      
+    avg_country <- mean$mean
     infoBox("Average # of stores per country", avg_country)
   })
 
+  #-------------All store location map -------------------
   
   output$map <- renderLeaflet({
     
-    leaflet(world) %>% addTiles() %>%
+    leaflet(store_level) %>% addTiles() %>%
       addMarkers(
         clusterOptions = markerClusterOptions()
       )
   })
   
-
+  #---------------Top 10 country/city -----------------------
   
   output$store_by_top10 = renderPlot({
     
     if (input$city_country == 'Country'){
     
-      top10 %>% 
-      ggplot(aes(x=reorder(country,total),y=total)) +
+      country_level %>% 
+        arrange(desc(num_of_store)) %>%
+        head(10) %>%
+       ggplot(aes(x=reorder(country_name,num_of_store),y=num_of_store)) +
        geom_col(fill='dark green') +
-       geom_text(aes(label=total),  hjust=-0.7)+
-       geom_text(x='USA', y=12500, label='13608',color='white')+
+       geom_text(aes(label=num_of_store),  hjust=-0.8)+
+       geom_text(x='United States of America', y=12500, label='13608',color='white')+
        theme_bw() +
        coord_flip() +
        ylab('') +
@@ -48,11 +57,16 @@ shinyServer(function(input, output){
              line=element_blank(),
              panel.border = element_blank(),
              axis.line = element_line(color='grey20'))
+      
     } else {
-     topcity %>%
-       ggplot(aes(x=reorder(city,total),y=total)) +
+     store_level %>%
+        group_by(city) %>%
+        summarise(num_of_store=n()) %>%
+        arrange(desc(num_of_store)) %>%
+        head(10) %>%
+       ggplot(aes(x=reorder(city,num_of_store),y=num_of_store)) +
        geom_col(fill='dark green') +
-       geom_text(aes(label=total),  hjust=-0.1)+
+       geom_text(aes(label=num_of_store),  hjust=-0.1)+
        theme_bw() +
        coord_flip() +
        ylab('') +
@@ -66,92 +80,76 @@ shinyServer(function(input, output){
 
   })
   
+  #-------------------------store per capita-------------------------
   
-  output$store_by_continent = renderPlot({
+  output$store_per_capita = renderPlot({
     
-    if(input$store_continent == 'Number of Starbuck stores by continent') {
-    
-    world %>%
-      group_by(continent) %>%
-      summarise(total=n()) %>%
-      arrange(desc(total)) %>%
-      ggplot(aes(x=reorder(continent,total),y=total)) +
-       geom_col(fill='dark green') +
+    country_level %>%
+      arrange(store_per_capita) %>%
+      head(10) %>%
+      ggplot(aes(x=reorder(country_name,desc(store_per_capita)),y=store_per_capita)) +
+       geom_col(aes(fill=type)) +
        theme_bw() +
-       geom_text(aes(label=total), vjust = -0.7)+
+       geom_text(aes(label=store_per_capita), hjust = -0.7)+
+       coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Number of stores by continent') +
+       ggtitle('Top 10 countries by Store Per Capita (in thousands)') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
-            axis.line = element_line(color='grey20'))
-    } else {
-    world%>%
-      group_by(continent,country) %>%
-      summarise(total=n()) %>%
-      group_by(continent) %>%
-      summarise(total=n()) %>%
-      ggplot(aes(x=reorder(continent,total),y=total)) +
-      geom_col(fill='dark green') +
-      theme_bw() +
-      geom_text(aes(label=total), vjust = -0.7)+
-      ylab('') +
-      xlab('') +
-      ggtitle('Number of countries in each continent that has Starbucks stores') +
-      theme(text=element_text(size=14,face = "bold"),
-            line=element_blank(),
-            panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
-      theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
-    }
-    
+      scale_fill_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey"),name='')
+
   })
 
+#--------------------- General location analysis tab ---------------------
   
-  
-  
-  #-------------analysis------------------
+  #-------------economic metric comparision boxplot ------------------
   
   
   
   output$pop_gdp = renderPlot({
-    g = pop_gdp %>%
+    
+    g = country_level %>%
+      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) %>%
       filter(feature == input$pop_gdp) %>%
-      group_by(continent, present) %>%
-      ggplot(aes(x=continent,y=value)) + 
-      geom_boxplot(aes(fill=present)) +
+      group_by(type) %>%
+      ggplot(aes(x=type,y=value)) + 
+      geom_boxplot(aes(fill=type)) +
       theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
       theme_bw() +
       coord_flip() +
       ylab('') +
       xlab('') +
-      ggtitle('GDP and population for countries have and not have Starbucks') +
+      ggtitle('GDP, Population & GDP Per Capita by Starbucks presents') +
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
-      scale_fill_manual(values = c('Present'="darkgreen", 'Not Present'="grey"))
+      scale_fill_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey", "No Starbucks"='darkred'),
+                        name='')
     
-    if (input$pop_gdp == 'GDP'){
-      g+ylim(0,2e12)
-    } else if (input$pop_gdp == 'Population') {
-      g+ylim(0,4e8)
+    if (input$pop_gdp == 'gdp_in_million'){
+      g+ylim(0,1.2e7)
+    } else if (input$pop_gdp == 'tot_pop_thousands') {
+      g+ylim(0,1e6)
     } else {
       g
     }
     
   })
   
+  #--------------------------Scatter Plot----------------------
+  
   output$pop_store = renderPlot({
     
-    if(input$pop_store=='World'){
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(feature==input$pop_gdp) %>% 
-        unique() %>%
-        ggplot(aes(x=value,y=num_of_store)) +
-        geom_point(aes(color=is_top),size=2)+
+      country_level %>%
+        filter(type!='No Starbucks') %>%
+        gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) %>%
+        filter(feature=='gdp_per_capita') %>% 
+        ggplot(aes(x=value,y=store_per_capita)) +
+        geom_point(aes(color=type),size=2)+
         geom_smooth(method='lm',se=F,color='black')+
         theme_bw() +
         ylab('') +
@@ -160,40 +158,16 @@ shinyServer(function(input, output){
               line=element_blank(),
               panel.border = element_blank(),
               axis.line = element_line(color='grey20'))+
-        scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
+        scale_colour_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey"),name='')+
         scale_x_log10()+
         scale_y_log10()+
-        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
-                      labels = trans_format("log10", math_format(10^.x)))+
-        ggtitle('Pop')
+        #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+         #             labels = trans_format("log10", math_format(10^.x)))+
+        ggtitle('Scatter Plot of Store Per Capita by GDP, Polution and GDP Per Capita')
       
-    } else {
-    
-      
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(continent==input$pop_store & feature==input$pop_gdp) %>% 
-        unique() %>%
-        ggplot(aes(x=value,y=num_of_store)) +
-        geom_point(aes(color=is_top),size=2)+
-        geom_smooth(method='lm',se=F,color='black')+
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_colour_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey"),name='')+
-        scale_x_log10()+
-        scale_y_log10()+
-        scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
-                      labels = trans_format("log10", math_format(10^.x)))+
-        ggtitle('Pop')
-    
-    }
   })
   
+  #--------------------------------Selection-----------------------------
   output$pop_store2 = renderPlot({
     if(input$pop_store=='World'){
       
@@ -239,62 +213,44 @@ shinyServer(function(input, output){
     }
   })
   
-  # 
-  # output$brand_country = renderPlot({
-  #   
-  #   world %>%
-  #     group_by(continent) %>%
-  #     summarise(num = sum(brand==input$brand2)) %>%
-  #     ggplot(aes(x=reorder(continent,num),y=num)) +
-  #     geom_bar(fill='dark green',stat='identity',position='dodge') +
-  #     theme_bw() +
-  #     geom_text(aes(label=num), vjust = -0.7)+
-  #     ylab('') +
-  #     xlab('') +
-  #     ggtitle('Number of store by brand in continents') +
-  #     theme(text=element_text(size=14,face = "bold"),
-  #           line=element_blank(),
-  #           panel.border = element_blank(),
-  #           axis.line = element_line(color='grey20')) +
-  #     theme(axis.text.x = element_text(angle = 30,vjust = 0.5, hjust=1))
-  # 
-  # })
 
-
-  output$by_ownership = renderPlot({
-    
-    world %>%
-      filter(country %in% input$brand1) %>%
-      group_by(country,ownership_type) %>%
-      summarise(num = n()) %>%
-      ggplot(aes(x=reorder(country,num),y=num)) +
-      geom_bar(aes(fill=ownership_type),stat='identity',position='dodge') +
-      theme(axis.text.x = element_text(angle = 30, vjust = 0.5, hjust=1))
-
-  })
-
-
-  output$ownership_country = renderPlot({
-    world %>%
-      group_by(continent) %>%
-      summarise(ratio = mean(ownership_type==input$ownership2)) %>%
-      ggplot(aes(x=reorder(continent,ratio),y=ratio)) +
-       geom_bar(fill='dark green',stat='identity',position='dodge') +
-       theme_bw() +
-       geom_text(aes(label=round(ratio,2)), vjust = -0.7)+
-       ylab('') +
-       xlab('') +
-       ggtitle('Ratio of ownership type by continent') +
-       theme(text=element_text(size=14,face = "bold"),
-            line=element_blank(),
-            panel.border = element_blank(),
-            axis.line = element_line(color='grey20')) +
-       theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust=1))
-
-  })
+#-------------------------------------------------------------------------------------
+# 
+#   output$by_ownership = renderPlot({
+#     
+#     world %>%
+#       filter(country %in% input$brand1) %>%
+#       group_by(country,ownership_type) %>%
+#       summarise(num = n()) %>%
+#       ggplot(aes(x=reorder(country,num),y=num)) +
+#       geom_bar(aes(fill=ownership_type),stat='identity',position='dodge') +
+#       theme(axis.text.x = element_text(angle = 30, vjust = 0.5, hjust=1))
+# 
+#   })
+# 
+# 
+#   output$ownership_country = renderPlot({
+#     world %>%
+#       group_by(continent) %>%
+#       summarise(ratio = mean(ownership_type==input$ownership2)) %>%
+#       ggplot(aes(x=reorder(continent,ratio),y=ratio)) +
+#        geom_bar(fill='dark green',stat='identity',position='dodge') +
+#        theme_bw() +
+#        geom_text(aes(label=round(ratio,2)), vjust = -0.7)+
+#        ylab('') +
+#        xlab('') +
+#        ggtitle('Ratio of ownership type by continent') +
+#        theme(text=element_text(size=14,face = "bold"),
+#             line=element_blank(),
+#             panel.border = element_blank(),
+#             axis.line = element_line(color='grey20')) +
+#        theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust=1))
+# 
+#   })
   
   
-  #-------------------------analysis 2-------------------------
+#-------------------------Foreign Market Ownership & Location Analysis 2-------------------------
+  #----------------------Ownership Type by Continent------------------------------------
   
   output$cpi1 = renderPlot({
     
@@ -323,7 +279,7 @@ shinyServer(function(input, output){
     
   })
   
-  
+  #---------------------------- Explaination on Joint Venture------------------------
   
   output$cpi2 = renderPlot({
     
@@ -351,7 +307,8 @@ shinyServer(function(input, output){
     #scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') +
     
   })
-
+ 
+  #--------------------------------Location by Ownership Type-----------------------
   
   output$ownermap = renderLeaflet({
     
@@ -388,7 +345,7 @@ shinyServer(function(input, output){
 
 
   output$table <- DT::renderDataTable({
-    datatable(world, rownames=FALSE)
+    datatable(country_level, rownames=FALSE)
 
   })
 

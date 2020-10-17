@@ -10,19 +10,19 @@ dashboardPage(
     sidebarUserPanel("Author: Chun Tao"),
     
     sidebarMenu(
-          menuItem('Overview',
+          menuItem('About the project',
                    tabName = 'intro', icon = icon('thumbtack')
                    ),
           
-          menuItem('Global Presents',
+          menuItem('Starbucks Store Location in A Glance',
                    tabName = 'summary', icon = icon('globe')
                    ),
           
-          menuItem('General Expansion Strategy',
+          menuItem('General Location Analysis',
                    tabName = 'analysis', icon = icon('chart-bar')
                    ),
           
-          menuItem('Foreign Market Entry Strategy',
+          menuItem('Foreign Market Ownership & Location Analysis',
                    tabName = 'analysis2', icon = icon('chart-bar')
                    ),
           
@@ -72,14 +72,13 @@ dashboardPage(
               
               h4('Corruption: https://data.world/bchamptx/2015-corruption-v-gdp'),
               
-              h4('Coffee consumption: http://datatopics.worldbank.org/consumption/detail'),
               
               h4('Population: https://population.un.org/wpp/Download/Standard/CSV')
               
               ),
       
       tabItem(
-              tabName = 'summary', h2("Glocal Presents of Stabucks Stores"),
+              tabName = 'summary', h2("Starbucks Store Location in A Glance"),
               
               fluidRow(infoBoxOutput("num_store"),
                        infoBoxOutput("num_country"),
@@ -101,13 +100,8 @@ dashboardPage(
                                    label = " Select a option",
                                    choices = unique(city_country)
                     ),
-                    width=6),
-                box(h4(' See Starbuck stores in each continent:'),
-                    selectizeInput(inputId = "store_continent",
-                                   label = " Select a option",
-                                   choices = unique(store_continent)
-                    ),
                     width=6)
+
               ),
 
               fluidRow(
@@ -115,7 +109,7 @@ dashboardPage(
                  box(plotOutput('store_by_top10'),
                      width=6),
               
-                 box(plotOutput('store_by_continent'),
+                 box(plotOutput('store_per_capita'),
                      width=6)
                )
               
@@ -124,7 +118,7 @@ dashboardPage(
       
       
       tabItem(
-              tabName = 'analysis', h2("Expansion Strategy Analysis"),
+              tabName = 'analysis', h2("General Location Analysis"),
               
               
               fluidRow(
@@ -169,7 +163,7 @@ dashboardPage(
       
      
       tabItem(
-              tabName = 'analysis2', h2("Foreign Market Entry Strategy"),
+              tabName = 'analysis2', h2("Foreign Market Ownership & Location Analysis"),
               
               fluidRow(
                 box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),
