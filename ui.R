@@ -128,7 +128,7 @@ dashboardPage(
                     h4('Note: Outliers are excluded in the GDP graph (USA and China), and in the population graph(China and India)'),
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
-                                   choices = unique(pop_gdp$feature)),
+                                   choices = unique(gather$feature)),
                     selectizeInput(inputId = "pop_store",
                                    label = "Select a continent",
                                    choices = unique(geo_select)),

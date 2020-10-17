@@ -111,8 +111,10 @@ shinyServer(function(input, output){
   
   output$pop_gdp = renderPlot({
     
-    g = country_level %>%
-      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) %>%
+    gather = country_level %>%
+      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
+    
+    g <- gather%>%
       filter(feature == input$pop_gdp) %>%
       group_by(type) %>%
       ggplot(aes(x=type,y=value)) + 
@@ -131,9 +133,9 @@ shinyServer(function(input, output){
                         name='')
     
     if (input$pop_gdp == 'gdp_in_million'){
-      g+ylim(0,1.2e7)
-    } else if (input$pop_gdp == 'tot_pop_thousands') {
       g+ylim(0,1e6)
+    } else if (input$pop_gdp == 'tot_pop_thousands') {
+      g+ylim(0,5e5)
     } else {
       g
     }
@@ -144,10 +146,12 @@ shinyServer(function(input, output){
   
   output$pop_store = renderPlot({
     
-      country_level %>%
+    gather = country_level %>%
+      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
+    
+      gather %>%
         filter(type!='No Starbucks') %>%
-        gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) %>%
-        filter(feature=='gdp_per_capita') %>% 
+        filter(feature==input$pop_gdp) %>% 
         ggplot(aes(x=value,y=store_per_capita)) +
         geom_point(aes(color=type),size=2)+
         geom_smooth(method='lm',se=F,color='black')+
