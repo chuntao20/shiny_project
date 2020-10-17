@@ -258,12 +258,23 @@ shinyServer(function(input, output){
   
   output$cpi1 = renderPlot({
     
-    cpi = cpi_join %>%
+   cpi_score = cpi_join%>%
+     mutate(continent=ifelse(country=='United States of America',country,continent))%>%
+     group_by(country,continent,CPI2015) %>%
+     summarise(num_of_store=n()) %>%
+     group_by(continent) %>%
+     summarise(avg_cpi=mean(CPI2015))
+    
+   cpi_join %>%
       mutate(is_usa=ifelse(country=='United States of America',country,continent)) %>%
       group_by(is_usa,ownership_type) %>%
       summarise(num_store=n()) %>%
+      inner_join(cpi_score,by=c('is_usa'='continent')) %>%
       arrange(desc(num_store)) %>%
-      ggplot(aes(x=reorder(is_usa,num_store),y=num_store))+
+      ggplot()+
+      geom_col(aes(x=reorder(is_usa,num_store),y=num_store,fill=ownership_type),position='fill',width=0.8) +
+      geom_line(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='darkred',group=1,size=1.2)+
+      geom_point(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='darkred',group=1,size=3)+
       scale_fill_wsj(palette = "black_green",name='')+
       theme_bw() +
       ylab('') +
@@ -272,11 +283,9 @@ shinyServer(function(input, output){
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
-            axis.line = element_line(color='grey20'))+
-      theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust=1))
-    
-     
-    cpi + geom_col(aes(fill=ownership_type),position='fill',width=0.8)
+            axis.line = element_line(color='grey20')) +
+      theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust=1)) +
+      scale_y_continuous(sec.axis = sec_axis(~.*100, name = "avg_cpi"))
   
     
   })
