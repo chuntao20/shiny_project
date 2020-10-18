@@ -175,7 +175,40 @@ shinyServer(function(input, output){
       
   })
   
-  #--------------------------------Selection-----------------------------
+  #--------------------------Scatter Plot 2----------------------
+  
+  output$scatter2 = renderPlot({
+    
+    var_display_name <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 'GDP ($MM)',
+                                         input$pop_gdp == 'tot_pop_thousands' ~ 'Total Population (k)',
+                                         input$pop_gdp == 'gdp_per_capita' ~ 'GDP Per Capita')
+    
+    gather = country_level %>%
+      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
+    
+    gather %>%
+      filter(type!='No Starbucks') %>%
+      filter(feature=='gdp_in_million') %>% #input$pop_gdp
+      ggplot(aes(x=value,y=store_per_capita)) +
+      geom_point(aes(color=continent_name),size=2)+
+      geom_smooth(method='lm',se=F,color='black')+
+      theme_bw() +
+      ylab('Num of Store Per 1,000 Inhabitants') +
+      xlab(var_display_name) +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      scale_colour_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey"),name='')+
+      scale_x_log10()+
+      scale_y_log10()+
+      #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+      #             labels = trans_format("log10", math_format(10^.x)))+
+      ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name))
+    
+  })
+  
+  #--------------------------------Outlier country table-----------------------------
   
   output$outlier_country <- renderPlot({
     #datatable(abv_avg, rownames=FALSE,fillContainer = FALSE)
