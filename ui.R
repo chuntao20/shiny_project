@@ -132,7 +132,8 @@ dashboardPage(
                     width=8),
                 box(selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
-                                   choices = unique(gather$feature)),
+                                   choices = unique(gather$feature),
+                                   selected = 'gdp_per_capita'),
                     width=4)
               ),
 
@@ -145,9 +146,10 @@ dashboardPage(
                 ),
             
               fluidRow(
-                box(h4(''),
+                box(h4("The store density (population served by 1 store) has a minimun relationship with country GDP, which indicates Starbucks doesn't only want to operate in the rich countries."),
+                    h4(""),
                     width = 6),
-                box(h4(''),
+                box(h4('For GDP Per Capita, Asia countries tend to have higher store density comparing to Europe.'),
                     width = 6)
                 )
       ),

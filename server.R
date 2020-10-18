@@ -94,7 +94,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 Country By # of Store Per 1k Inhabitants') +
+       ggtitle('Top 10 Country By Population(k) Served by 1 Store') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
@@ -152,10 +152,10 @@ shinyServer(function(input, output){
       filter(type!='No Starbucks') %>%
       filter(feature==input$pop_gdp) %>%
       ggplot(aes(x=value,y=store_per_capita)) +
-      geom_point(aes(color=type),size=2)+
+      geom_point(aes(color=type),size=3)+
       geom_smooth(method='lm',se=F,color='black')+
       theme_bw() +
-      ylab('Num of Store Per 1,000 Inhabitants') +
+      ylab('Population(k) Served by 1 Store') +
       xlab(var_display_name) +
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
@@ -201,7 +201,7 @@ shinyServer(function(input, output){
       #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
       #             labels = trans_format("log10", math_format(10^.x)))+
       ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name, ' Continent View'))+
-      ylab('Num of Store Per 1,000 Inhabitants') +
+      ylab('Population(k) Served by 1 Store') +
       xlab(var_display_name) 
 
   })
