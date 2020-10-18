@@ -164,6 +164,8 @@ dashboardPage(
                     br(),
                     h4("In North America, Starbucks' hometown, the company shows a stronger control over the brand. While In Asia and Europe, they made different decisions to expand the business."),
                     h4("Such desicion may come from a set of various reasons. Apparently, the easiness of doing business in a country is not a major one. Other possiblility also include the local business law, such as in China, it is not allowed to open a sole-owned company by a foreign enterpreneur."),
+                    br(),
+                    br(),
                     width = 4
                 )
               ),
@@ -175,6 +177,7 @@ dashboardPage(
                     h4("Hint: Try Zoom in China, UK, or Carribean area to check it out."),
                     br(),
                     h4("Company owned stores might be more visible in major metropolitan areas. While licensed stores are more depending on the local business owners' judgement."),
+                    br(),
                     width=4)
               )
 
