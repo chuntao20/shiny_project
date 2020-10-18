@@ -139,9 +139,9 @@ dashboardPage(
               
 
               fluidRow(
-                box(plotOutput('pop_store'),width = 6),
+                box(plotOutput('scatter1'),width = 6),
                 
-                box(plotOutput('pop_store2'),width = 6)
+                box(plotOutput('scatter2'),width = 6)
                   
                 ),
               
