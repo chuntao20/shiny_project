@@ -104,27 +104,27 @@ shinyServer(function(input, output){
   })
 
 #--------------------- General location analysis tab ---------------------
-  
+
   #-------------economic metric comparision boxplot ------------------
-  
-  
-  
+
+
+
   output$pop_gdp = renderPlot({
-    
+
     var_display_name <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 'GDP ($MM)',
                                          input$pop_gdp == 'tot_pop_thousands' ~ 'Total Population (k)',
                                          input$pop_gdp == 'gdp_per_capita' ~ 'GDP Per Capita')
-    
+
     y_axis_upper <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 1e6,
                                      input$pop_gdp == 'tot_pop_thousands' ~ 4e5,
                                      input$pop_gdp == 'gdp_per_capita' ~ NA_real_)
-    gather = country_level %>%
-      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
-    
+    # gather = country_level %>%
+    #   gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita)
+
     gather%>%
       filter(feature == input$pop_gdp) %>%
       group_by(type) %>%
-      ggplot(aes(x=type,y=value)) + 
+      ggplot(aes(x=type,y=value)) +
       geom_boxplot(aes(fill=type)) +
       ylim(0, y_axis_upper) +
       theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
@@ -141,21 +141,21 @@ shinyServer(function(input, output){
                         name='')
 
   })
-  
+
   #--------------------------Scatter Plot----------------------
-  
+
   output$pop_store = renderPlot({
-    
+
     var_display_name <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 'GDP ($MM)',
                                          input$pop_gdp == 'tot_pop_thousands' ~ 'Total Population (k)',
                                          input$pop_gdp == 'gdp_per_capita' ~ 'GDP Per Capita')
-    
-    gather = country_level %>%
-      gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
-    
+
+    # gather = country_level %>%
+    #   gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita)
+
     gather %>%
       filter(type!='No Starbucks') %>%
-      filter(feature==input$pop_gdp) %>% 
+      filter(feature==input$pop_gdp) %>%
       ggplot(aes(x=value,y=store_per_capita)) +
       geom_point(aes(color=type),size=2)+
       geom_smooth(method='lm',se=F,color='black')+
@@ -172,55 +172,55 @@ shinyServer(function(input, output){
       #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
       #             labels = trans_format("log10", math_format(10^.x)))+
       ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name))
-      
+
   })
-  
-  #--------------------------------Selection-----------------------------
-  output$pop_store2 = renderPlot({
-    if(input$pop_store=='World'){
-      
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(feature==input$pop_gdp) %>%
-        filter(!is.na(value)) %>%
-        unique()%>%
-        arrange(desc(value)) %>%
-        head(30) %>%
-        ggplot(aes(x=reorder(country,value),y=value)) +
-        geom_col(aes(fill=is_top)) +
-        coord_flip() +
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-        ggtitle('Title')
-      
-    } else {
-      
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(continent==input$pop_store & feature==input$pop_gdp) %>%
-        filter(!is.na(value)) %>%
-        unique()%>%
-        ggplot(aes(x=reorder(country,value),y=value)) +
-        geom_col(aes(fill=is_top)) +
-        coord_flip() +
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-        ggtitle('Title')
-    }
-  })
-  
+
+#   #--------------------------------Selection-----------------------------
+#   output$pop_store2 = renderPlot({
+#     if(input$pop_store=='World'){
+#       
+#       pop_gdp %>%
+#         filter(present=='Present') %>%
+#         filter(feature==input$pop_gdp) %>%
+#         filter(!is.na(value)) %>%
+#         unique()%>%
+#         arrange(desc(value)) %>%
+#         head(30) %>%
+#         ggplot(aes(x=reorder(country,value),y=value)) +
+#         geom_col(aes(fill=is_top)) +
+#         coord_flip() +
+#         theme_bw() +
+#         ylab('') +
+#         xlab('') +
+#         theme(text=element_text(size=14,face = "bold"),
+#               line=element_blank(),
+#               panel.border = element_blank(),
+#               axis.line = element_line(color='grey20'))+
+#         scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
+#         ggtitle('Title')
+#       
+#     } else {
+#       
+#       pop_gdp %>%
+#         filter(present=='Present') %>%
+#         filter(continent==input$pop_store & feature==input$pop_gdp) %>%
+#         filter(!is.na(value)) %>%
+#         unique()%>%
+#         ggplot(aes(x=reorder(country,value),y=value)) +
+#         geom_col(aes(fill=is_top)) +
+#         coord_flip() +
+#         theme_bw() +
+#         ylab('') +
+#         xlab('') +
+#         theme(text=element_text(size=14,face = "bold"),
+#               line=element_blank(),
+#               panel.border = element_blank(),
+#               axis.line = element_line(color='grey20'))+
+#         scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
+#         ggtitle('Title')
+#     }
+#   })
+#   
 
 #-------------------------------------------------------------------------------------
 # 

@@ -129,15 +129,15 @@ dashboardPage(
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(gather$feature)),
-                  
+
                     width=4)
               ),
               
 
               fluidRow(
-                box(plotOutput('pop_store'),width = 6)
+                box(plotOutput('pop_store'),width = 6),
                 
-                #box(plotOutput('pop_store2'),width = 6)
+                box(plotOutput('pop_store2'),width = 6)
                   
                 ),
               

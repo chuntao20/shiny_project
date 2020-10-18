@@ -40,16 +40,16 @@ geo_select = c('World','North America','Asia','Europe','South America', 'Oceania
 #   arrange(desc(total)) %>%
 #   top_n(10) 
 
-top10a = world %>%
-  filter(country %in% top10$country)
-
-top10$country = gsub('United Kingdom of Great Britain & Northern Ireland','United Kingdom',top10$country)
-top10$country = gsub('Mexico, United Mexican States','Mexico',top10$country)
-top10$country = gsub('Philippines, Republic of the','Philippines',top10$country)
-top10$country = gsub('Turkey, Republic of','Turkey',top10$country)
-top10$country = gsub('Korea, Republic of','South Korea',top10$country)
-top10$country = gsub("China, People's Republic of",'China',top10$country)
-top10$country = gsub("United States of America",'USA',top10$country)
+# top10a = world %>%
+#   filter(country %in% top10$country)
+# 
+# top10$country = gsub('United Kingdom of Great Britain & Northern Ireland','United Kingdom',top10$country)
+# top10$country = gsub('Mexico, United Mexican States','Mexico',top10$country)
+# top10$country = gsub('Philippines, Republic of the','Philippines',top10$country)
+# top10$country = gsub('Turkey, Republic of','Turkey',top10$country)
+# top10$country = gsub('Korea, Republic of','South Korea',top10$country)
+# top10$country = gsub("China, People's Republic of",'China',top10$country)
+# top10$country = gsub("United States of America",'USA',top10$country)
 
 
 # usa = world %>%
@@ -58,7 +58,8 @@ top10$country = gsub("United States of America",'USA',top10$country)
 cpi_clean = cpi_join %>%
   filter(!is.na(lon)&!is.na(lat))
 
-
+gather = country_level %>%
+  gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
 
 
 
