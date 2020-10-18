@@ -315,9 +315,9 @@ shinyServer(function(input, output){
       inner_join(cpi_score,by=c('is_usa'='continent')) %>%
       arrange(desc(num_store)) %>%
       ggplot()+
-      geom_col(aes(x=reorder(is_usa,num_store),y=num_store,fill=ownership_type),position='fill',width=0.8) +
-      geom_line(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='#ee6611',group=1,size=1.2) +
-      geom_point(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='#ee6611',group=1,size=3) +
+      geom_col(aes(x=reorder(is_usa,num_store),y=num_store,fill=ownership_type),position='stack',width=0.8) +
+      geom_line(aes(x=reorder(is_usa,num_store),y=avg_cpi*100),color='#ee6611',group=1,size=1.2) +
+      geom_point(aes(x=reorder(is_usa,num_store),y=avg_cpi*100),color='#ee6611',group=1,size=3) +
       theme_bw() +
       ylab('') +
       xlab('') +
@@ -327,7 +327,7 @@ shinyServer(function(input, output){
             panel.border = element_blank(),
             axis.line = element_line(color='grey20')) +
       theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust=1)) +
-      scale_y_continuous(sec.axis = sec_axis(~.*100, name = "Easy to do Business Score"))+
+      scale_y_continuous(sec.axis = sec_axis(~./100, name = "Easy to do Business Score"))+
       scale_fill_manual(values = c('Company Owned'='#006127', 
                                    "Licensed"="#b2df8a",
                                    'Joint Venture'='darkred',

@@ -183,14 +183,21 @@ dashboardPage(
                 box(plotOutput('cpi1'),width = 8
                 ),
                 
-                box(h3(''),width = 3
-                #plotOutput('cpi2'),width = 5)
+                box(h3("Across continents, ownership type of a Starbucks store varies so as to adapt to local business ecosystem."),
+                    br(),
+                    h4("In North America, Starbucks' hometown, the company shows a stronger control over the brand. While In Asia and Europe, stores ownership types are more diversed."),
+                    h4("The Easy-to-do-Business index is not the reason for Starbucks to give away the ownership. One major   "),
+                    width = 4
+            
                 )
               ),
               
               fluidRow(
                 box(leafletOutput('ownermap'),width=8),
-                box(h4(''),width=3)
+                box(h3('The ownership type within one country could be different geographically.'),
+                    br(),
+                    h4("Hint: Try Zoom in China, UK, or Carribean area to check it out."),
+                    width=4)
               )
 
       ),
