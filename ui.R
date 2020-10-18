@@ -130,10 +130,11 @@ dashboardPage(
               fluidRow(
                 box(h4('Countries has Starbucks stores show stronger perfromance in economic indicators. Basically, in every continent, Starbucks stores appear in the countries that have higher average GDP, higher population and higher GDP per capita. '),
                     h4('Note: Outliers are excluded in the GDP graph (USA and China), and in the population graph(China and India)'),
-                    selectizeInput(inputId = "pop_gdp",
+                    width=8),
+                box(selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(gather$feature)),
-                    width=8)
+                    width=4)
 
               ),
               

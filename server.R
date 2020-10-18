@@ -52,7 +52,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 country with the most Starbucks stores') +
+       ggtitle('Top 10 country By Starbucks Store Counts') +
        theme(text=element_text(size=14,face = "bold"),
              line=element_blank(),
              panel.border = element_blank(),
@@ -71,7 +71,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 city with the most Starbucks stores') +
+       ggtitle('Top 10 City By Starbucks Store Counts') +
        theme(text=element_text(size=14,face = "bold"),
              line=element_blank(),
              panel.border = element_blank(),
@@ -94,7 +94,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 Countries By 1,000 Population Per Store') +
+       ggtitle('Top 10 By Num of Store Per 1,000 Inhabitants') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
@@ -200,7 +200,7 @@ shinyServer(function(input, output){
       scale_y_log10()+
       #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
       #             labels = trans_format("log10", math_format(10^.x)))+
-      ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name))+
+      ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name, ' Continent View'))+
       ylab('Num of Store Per 1,000 Inhabitants') +
       xlab(var_display_name) 
 
