@@ -214,87 +214,6 @@ shinyServer(function(input, output){
     grid.arrange(abv)
   })
 
-#   #--------------------------------Selection-----------------------------
-#   output$pop_store2 = renderPlot({
-#     if(input$pop_store=='World'){
-#       
-#       pop_gdp %>%
-#         filter(present=='Present') %>%
-#         filter(feature==input$pop_gdp) %>%
-#         filter(!is.na(value)) %>%
-#         unique()%>%
-#         arrange(desc(value)) %>%
-#         head(30) %>%
-#         ggplot(aes(x=reorder(country,value),y=value)) +
-#         geom_col(aes(fill=is_top)) +
-#         coord_flip() +
-#         theme_bw() +
-#         ylab('') +
-#         xlab('') +
-#         theme(text=element_text(size=14,face = "bold"),
-#               line=element_blank(),
-#               panel.border = element_blank(),
-#               axis.line = element_line(color='grey20'))+
-#         scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-#         ggtitle('Title')
-#       
-#     } else {
-#       
-#       pop_gdp %>%
-#         filter(present=='Present') %>%
-#         filter(continent==input$pop_store & feature==input$pop_gdp) %>%
-#         filter(!is.na(value)) %>%
-#         unique()%>%
-#         ggplot(aes(x=reorder(country,value),y=value)) +
-#         geom_col(aes(fill=is_top)) +
-#         coord_flip() +
-#         theme_bw() +
-#         ylab('') +
-#         xlab('') +
-#         theme(text=element_text(size=14,face = "bold"),
-#               line=element_blank(),
-#               panel.border = element_blank(),
-#               axis.line = element_line(color='grey20'))+
-#         scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-#         ggtitle('Title')
-#     }
-#   })
-#   
-
-#-------------------------------------------------------------------------------------
-# 
-#   output$by_ownership = renderPlot({
-#     
-#     world %>%
-#       filter(country %in% input$brand1) %>%
-#       group_by(country,ownership_type) %>%
-#       summarise(num = n()) %>%
-#       ggplot(aes(x=reorder(country,num),y=num)) +
-#       geom_bar(aes(fill=ownership_type),stat='identity',position='dodge') +
-#       theme(axis.text.x = element_text(angle = 30, vjust = 0.5, hjust=1))
-# 
-#   })
-# 
-# 
-#   output$ownership_country = renderPlot({
-#     world %>%
-#       group_by(continent) %>%
-#       summarise(ratio = mean(ownership_type==input$ownership2)) %>%
-#       ggplot(aes(x=reorder(continent,ratio),y=ratio)) +
-#        geom_bar(fill='dark green',stat='identity',position='dodge') +
-#        theme_bw() +
-#        geom_text(aes(label=round(ratio,2)), vjust = -0.7)+
-#        ylab('') +
-#        xlab('') +
-#        ggtitle('Ratio of ownership type by continent') +
-#        theme(text=element_text(size=14,face = "bold"),
-#             line=element_blank(),
-#             panel.border = element_blank(),
-#             axis.line = element_line(color='grey20')) +
-#        theme(axis.text.x = element_text(angle = 45,vjust = 0.5, hjust=1))
-# 
-#   })
-  
   
 #-------------------------Foreign Market Ownership & Location Analysis 2-------------------------
   #----------------------Ownership Type by Continent------------------------------------
@@ -336,41 +255,6 @@ shinyServer(function(input, output){
     
   })
   
-  #---------------------------- Explaination on Joint Venture------------------------
-  
-  # output$cpi2 = renderPlot({
-  #   
-  #   jv_country = cpi_join %>%
-  #     filter(ownership_type=='Joint Venture') %>%
-  #     group_by(country)%>%
-  #     select(country) %>%
-  #     unique()
-  #   
-  #   cpi_join %>%
-  #     group_by(continent,country,CPI2015) %>%
-  #     summarise(num_store=n()) %>%
-  #     filter(continent %in% c('Asia','Europe','South America')) %>%
-  #     mutate(has_jv=ifelse(country %in% jv_country$country,'Has_JV','No_JV')) %>%
-  #     group_by(has_jv) %>%
-  #     summarise(avg_cpi=mean(CPI2015),avg_store=mean(num_store))%>%
-  #     ggplot(aes(x=has_jv,y=avg_store))+
-  #     geom_col(aes(fill=has_jv),width=0.5) +
-  #     #geom_point(aes(x=has_jv,y=avg_store),size=4,color='darkgreen') + 
-  #     geom_point(aes(x=has_jv,y=avg_cpi*5),size=4,color='darkred')+
-  #     #geom_line(aes(x=c('Has_JV','No_JV'),y=c(48.1*5,56.2*5)),size=1,color='darkred')
-  #     theme_bw() +
-  #     ylab('') +
-  #     xlab('') +
-  #     ggtitle('Average # of stores and CPI index in Asia countries') +
-  #     theme(text=element_text(size=14,face = "bold"),
-  #           line=element_blank(),
-  #           panel.border = element_blank(),
-  #           axis.line = element_line(color='grey20'))+
-  #     #scale_fill_wsj(palette = "black_green",name='') + 
-  #     geom_text(aes(x=has_jv,y=avg_cpi*5),label=c('avg_CPI 50','avg_CPI 56'),color='darkred',vjust= 2.5,hjust=-0.1)+
-  #     scale_fill_manual(values = c('Has_JV'="darkgreen", 'No_JV'="grey"),name='') 
-  #   
-  # })
  
   #--------------------------------Location by Ownership Type-----------------------
   
@@ -386,28 +270,12 @@ shinyServer(function(input, output){
         stroke = FALSE, fillOpacity = 0.5
       )
     
-   
-    
   })
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
   
   #-------------table------------------
   
-
-
   output$table <- DT::renderDataTable({
     datatable(country_level, rownames=FALSE)
 
