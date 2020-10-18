@@ -7,14 +7,14 @@ dashboardPage(
   
   dashboardSidebar(
     
-    sidebarUserPanel("Author: Chun Tao"),
+      sidebarUserPanel("Author: Chun Tao"),
     
-    sidebarMenu(
+      sidebarMenu(
           menuItem('About the project',
                    tabName = 'intro', icon = icon('thumbtack')
                    ),
           
-          menuItem('Starbucks Store Location in',
+          menuItem('Starbucks World',
                    tabName = 'summary', icon = icon('globe')
                    ),
           
@@ -29,13 +29,11 @@ dashboardPage(
           menuItem('Data',
                    tabName = 'data',icon = icon('database')
                    )
-    )    
+       )    
     ),
   
   
   dashboardBody(
-    
-    ###font
     
     tabItems(
       
@@ -78,14 +76,13 @@ dashboardPage(
               ),
       
       tabItem(
-              tabName = 'summary', h2("Starbucks Store Locations"),
+              tabName = 'summary', h2("Starbucks World"),
               
               fluidRow(infoBoxOutput("num_store"),
                        infoBoxOutput("num_country"),
                        infoBoxOutput("avg_country")
                        ),
               
-
               fluidRow(
                 box(leafletOutput('map'),
                     width = 9),
@@ -98,7 +95,6 @@ dashboardPage(
               ),
               
               fluidRow(
-                
                 box(h4(' See the top 10 country or city have the most Starbuck stores:'),
                     selectizeInput(inputId = "city_country",
                                    label = " Select a option",
@@ -107,19 +103,14 @@ dashboardPage(
                     width = 6),
                 box(h4('Using number of per thousand inhabitants store number (population in thousand/store number) may eliminate the population influence on the store count. It turns out that only 4 of the Top 10 countries have high absolute store counts too. The other are all high population density countries or tourist destination.'),
                     width = 6)
-
               ),
 
               fluidRow(
-              
                  box(plotOutput('store_by_top10'),
                      width=6),
-              
                  box(plotOutput('store_per_capita'),
                      width=6)
                )
-              
-              
              ),
       
       
@@ -128,63 +119,43 @@ dashboardPage(
               
               
               fluidRow(
-                box(plotOutput('pop_gdp'),width=8),
-                box(plotOutput('outlier_country'),width=4)
+                box(plotOutput('pop_gdp'),
+                    width=8),
+                box(plotOutput('outlier_country'),
+                    width=4)
                 
               ),
               
               fluidRow(
-                box(h4('Countries has Starbucks stores show stronger perfromance in economic indicators. Basically, in every continent, Starbucks stores appear in the countries that have higher average GDP, higher population and higher GDP per capita. '),
+                box(h4('Countries has Starbucks stores show stronger perfromance in economic indicators. Generally, countries with Starbuck stores have higher average GDP, population and GDP per capita.'),
                     h4('Note: Outliers are excluded in the GDP graph (USA and China), and in the population graph(China and India)'),
                     width=8),
                 box(selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(gather$feature)),
                     width=4)
-
               ),
-              
 
               fluidRow(
-                box(plotOutput('scatter1'),width = 6),
+                box(plotOutput('scatter1'),
+                    width = 6),
                 
-                box(plotOutput('scatter2'),width = 6)
-                  
+                box(plotOutput('scatter2'),
+                    width = 6)  
                 ),
-              
             
               fluidRow(
-                
-        
-                ),
-      
-
-              fluidRow(
-                
-              ),
-              
-              fluidRow(
-                
+                box(h4(''),
+                    width = 6),
+                box(h4(''),
+                    width = 6)
                 )
-      
-          
       ),
       
      
       tabItem(
               tabName = 'analysis2', h2("Ownership & Location Analysis"),
-              
-              # fluidRow(
-              #   box(h4('Foreign market entry strategy can be different depending on the local business environment and laws etc. We want to take a look in the difference in ownership type among Starbucks stores to shed a light on the overall strategy.'),
-              #       width=6),
-              #   box(h4(''),
-              #       selectizeInput(inputId = "cpi1",
-              #                      label = "Select a View",
-              #                      choices = unique(cpi1)),
-              #       width=3)
-              #  ),
-              
-              
+
               fluidRow(
                 box(plotOutput('cpi1'),width = 8
                 ),
@@ -194,7 +165,6 @@ dashboardPage(
                     h4("In North America, Starbucks' hometown, the company shows a stronger control over the brand. While In Asia and Europe, they made different decisions to expand the business."),
                     h4("Such desicion may come from a set of various reasons. Apparently, the easiness of doing business in a country is not a major one. Other possiblility also include the local business law, such as in China, it is not allowed to open a sole-owned company by a foreign enterpreneur."),
                     width = 4
-            
                 )
               ),
               
