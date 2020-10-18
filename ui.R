@@ -49,7 +49,7 @@ dashboardPage(
               h2("Project Summary"),
               br(),
               h3("Starbucks is one of the biggest coffee brands in the world. Since founded in 1971 in Seattle, Washington, it has been constantly growing and now has more than 22,519 stores worldwide (starbuscks.com). The purpose of this project is to understand the underlying logic of Starbucks store openning strategy, so as to extract transforable insights for other similar brands. The primary data set was collected in Feb 2017, containing 25,600 Startbucks store location information in 73 countries and areas."),
-              h3('The Shiny dashboard includes 4 tabs. The project summary tab gives a breif introduction of the project and the data resource. The Starbucks world tab shows the geographic location  and store counts information for all Starbucks stores. The two Analysis tabs give a more indepth look into the factors decide whether or not to open a store in a country, as well as how to open the store. The data tab is the primary dataset used in the project.'),
+              h3('The Shiny dashboard includes 4 tabs. The project summary tab gives a breif introduction of the project and the data resource. The Starbucks world tab shows the geographic location and store counts information for all Starbucks stores. The three Analysis tabs give a more indepth look into the factors decide whether or not to open a store in a country, as well as how to open the store. The data tab is the primary dataset used in the project.'),
       
               br(),
               br(),
@@ -191,7 +191,10 @@ dashboardPage(
                 box(selectizeInput(inputId = "location",
                                    label = "Select a city",
                                    choices = unique(avg_dist_map$location)),
-                    width=5)),
+                    width = 5),
+                box(h4('On city level, store number may not be an accurate indicator since the area of each city in the world can vary drastically. Despite all other factors, the average distance between stores plus the population density may help us to spot the city with a potential to open more stores.'),
+                    width = 7)
+                ),
 
               fluidRow(
                 box(plotOutput('avg_dist_bar'),
