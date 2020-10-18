@@ -316,9 +316,8 @@ shinyServer(function(input, output){
       arrange(desc(num_store)) %>%
       ggplot()+
       geom_col(aes(x=reorder(is_usa,num_store),y=num_store,fill=ownership_type),position='fill',width=0.8) +
-      geom_line(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='darkred',group=1,size=1.2)+
-      geom_point(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='darkred',group=1,size=3)+
-      scale_fill_wsj(palette = "black_green",name='')+
+      geom_line(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='#ee6611',group=1,size=1.2) +
+      geom_point(aes(x=reorder(is_usa,num_store),y=avg_cpi/100),color='#ee6611',group=1,size=3) +
       theme_bw() +
       ylab('') +
       xlab('') +
@@ -328,7 +327,11 @@ shinyServer(function(input, output){
             panel.border = element_blank(),
             axis.line = element_line(color='grey20')) +
       theme(axis.text.x = element_text(angle = 15, vjust = 0.5, hjust=1)) +
-      scale_y_continuous(sec.axis = sec_axis(~.*100, name = "avg_cpi"))
+      scale_y_continuous(sec.axis = sec_axis(~.*100, name = "Easy to do Business Score"))+
+      scale_fill_manual(values = c('Company Owned'='#006127', 
+                                   "Licensed"="#b2df8a",
+                                   'Joint Venture'='darkred',
+                                   'Franchise'='black'),name='') 
   
     
   })
@@ -374,7 +377,7 @@ shinyServer(function(input, output){
   output$ownermap = renderLeaflet({
     
     
-    pal <- colorFactor(c("darkgreen", "darkred", "green",'black'), levels = c("Company Owned", "Joint Venture","Licensed",'Franchise'))
+    pal <- colorFactor(c("darkgreen", "darkred", "#b2df8a",'black'), levels = c("Company Owned", "Joint Venture","Licensed",'Franchise'))
     
     leaflet(cpi_clean) %>% addTiles() %>%
       addCircleMarkers(
