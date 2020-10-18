@@ -94,7 +94,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 By Num of Store Per 1,000 Inhabitants') +
+       ggtitle('Top 10 Country By # of Store Per 1k Inhabitants') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),

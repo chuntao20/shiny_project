@@ -89,7 +89,11 @@ dashboardPage(
               fluidRow(
                 box(leafletOutput('map'),
                     width = 9),
-                box(h4('In 2017, 26057 Starbucks stores are open in 73 countries across the world. Among them, USA stores alone constitute 52.2% of the total. USA and Candana together make the North America the top 1 market of Starbucks. China with 2734 stores makes the second place in store number rank. While Asia become the second largest maket in the world.'),
+                box(h3('Overview:'),
+                    h4('In 2017, 25600 Starbucks stores are open in 73 countries across the world. USA stores alone constitute 53% of the total. USA and Candana together make the North America the top 1 market of Starbucks.'), 
+                    br(),
+                    h4('Half of the Top 10 countries by sotre counts are from Asia, also the top 3 cities by store counts are all from Asia, which makes Asia become the second largest market in the Starbucks world.'),
+                    br(),
                     width=3)
               ),
               
@@ -100,7 +104,9 @@ dashboardPage(
                                    label = " Select a option",
                                    choices = unique(city_country)
                     ),
-                    width=6)
+                    width = 6),
+                box(h4('Using number of per thousand inhabitants store number (population in thousand/store number) may eliminate the population influence on the store count. It turns out that only 4 of the Top 10 countries have high absolute store counts too. The other are all high population density countries or tourist destination.'),
+                    width = 6)
 
               ),
 
@@ -185,8 +191,8 @@ dashboardPage(
                 
                 box(h3("Across continents, ownership type of a Starbucks store varies so as to adapt to local business ecosystem."),
                     br(),
-                    h4("In North America, Starbucks' hometown, the company shows a stronger control over the brand. While In Asia and Europe, stores ownership types are more diversed."),
-                    h4("The Easy-to-do-Business index is not the reason for Starbucks to give away the ownership. One major   "),
+                    h4("In North America, Starbucks' hometown, the company shows a stronger control over the brand. While In Asia and Europe, they made different decisions to expand the business."),
+                    h4("Such desicion may come from a set of various reasons. Apparently, the easiness of doing business in a country is not a major one. Other possiblility also include the local business law, such as in China, it is not allowed to open a sole-owned company by a foreign enterpreneur."),
                     width = 4
             
                 )
@@ -197,6 +203,8 @@ dashboardPage(
                 box(h3('The ownership type within one country could be different geographically.'),
                     br(),
                     h4("Hint: Try Zoom in China, UK, or Carribean area to check it out."),
+                    br(),
+                    h4("Company owned stores might be more visible in major metropolitan areas. While licensed stores are more depending on the local business owners' judgement."),
                     width=4)
               )
 
