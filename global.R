@@ -4,6 +4,7 @@ library(DT)
 library(dplyr)
 library(leaflet)
 library(ggthemes)
+library(gridExtra)
 
 
 #Read in dataset

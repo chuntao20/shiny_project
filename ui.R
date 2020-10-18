@@ -133,7 +133,7 @@ dashboardPage(
                     selectizeInput(inputId = "pop_gdp",
                                    label = "Select a metric",
                                    choices = unique(gather$feature)),
-                    width=4)
+                    width=8)
 
               ),
               
