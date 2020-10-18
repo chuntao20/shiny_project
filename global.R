@@ -1,10 +1,8 @@
 library(shiny)
 library(shinydashboard)
-library(googleVis)
 library(DT)
 library(dplyr)
 library(leaflet)
-library(plotly)
 library(ggthemes)
 
 
@@ -13,6 +11,7 @@ library(ggthemes)
 store_level = read.csv('store_level.csv',header = T)
 country_level = read.csv('pop_gdp_new.csv',header = T)
 cpi_join = read.csv('cpi_join.csv',header = T)
+abv_avg = read.csv('abv.csv',header=T)
 
 # world = read.csv('world.csv',header=T)
 # topcity = read.csv('topcity.csv',header=T)

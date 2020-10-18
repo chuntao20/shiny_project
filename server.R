@@ -94,7 +94,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 Countries By Population in Thousands Per Store') +
+       ggtitle('Top 10 Countries By 1,000 Population Per Store') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
@@ -176,49 +176,11 @@ shinyServer(function(input, output){
   })
   
   #--------------------------------Selection-----------------------------
-  output$pop_store2 = renderPlot({
-    if(input$pop_store=='World'){
-      
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(feature==input$pop_gdp) %>%
-        filter(!is.na(value)) %>%
-        unique()%>%
-        arrange(desc(value)) %>%
-        head(30) %>%
-        ggplot(aes(x=reorder(country,value),y=value)) +
-        geom_col(aes(fill=is_top)) +
-        coord_flip() +
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-        ggtitle('Title')
-      
-    } else {
-      
-      pop_gdp %>%
-        filter(present=='Present') %>%
-        filter(continent==input$pop_store & feature==input$pop_gdp) %>%
-        filter(!is.na(value)) %>%
-        unique()%>%
-        ggplot(aes(x=reorder(country,value),y=value)) +
-        geom_col(aes(fill=is_top)) +
-        coord_flip() +
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_fill_manual(values = c('Top 10 Countries'="darkgreen", 'Not Top 10'="grey")) +
-        ggtitle('Title')
-    }
+  
+  output$outlier_country <- renderPlot({
+    #datatable(abv_avg, rownames=FALSE,fillContainer = FALSE)
+    abv <- tableGrob(abv_avg)
+    grid.arrange(abv)
   })
   
 
