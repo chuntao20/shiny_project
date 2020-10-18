@@ -94,7 +94,7 @@ shinyServer(function(input, output){
        coord_flip() +
        ylab('') +
        xlab('') +
-       ggtitle('Top 10 countries by Store Per Capita (in thousands)') +
+       ggtitle('Top 10 Countries By Population in Thousands Per Store') +
        theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
@@ -111,63 +111,67 @@ shinyServer(function(input, output){
   
   output$pop_gdp = renderPlot({
     
+    var_display_name <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 'GDP ($MM)',
+                                         input$pop_gdp == 'tot_pop_thousands' ~ 'Total Population (k)',
+                                         input$pop_gdp == 'gdp_per_capita' ~ 'GDP Per Capita')
+    
+    y_axis_upper <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 1e6,
+                                     input$pop_gdp == 'tot_pop_thousands' ~ 4e5,
+                                     input$pop_gdp == 'gdp_per_capita' ~ NA_real_)
     gather = country_level %>%
       gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
     
-    g <- gather%>%
+    gather%>%
       filter(feature == input$pop_gdp) %>%
       group_by(type) %>%
       ggplot(aes(x=type,y=value)) + 
       geom_boxplot(aes(fill=type)) +
+      ylim(0, y_axis_upper) +
       theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust=1))+
       theme_bw() +
       coord_flip() +
-      ylab('') +
+      ylab(var_display_name) +
       xlab('') +
-      ggtitle('GDP, Population & GDP Per Capita by Starbucks presents') +
+      ggtitle(paste0(var_display_name, ' by Starbucks presents')) +
       theme(text=element_text(size=14,face = "bold"),
             line=element_blank(),
             panel.border = element_blank(),
             axis.line = element_line(color='grey20'))+
       scale_fill_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey", "No Starbucks"='darkred'),
                         name='')
-    
-    if (input$pop_gdp == 'gdp_in_million'){
-      g+ylim(0,1e6)
-    } else if (input$pop_gdp == 'tot_pop_thousands') {
-      g+ylim(0,4e5)
-    } else {
-      g
-    }
-    
+
   })
   
   #--------------------------Scatter Plot----------------------
   
   output$pop_store = renderPlot({
     
+    var_display_name <- dplyr::case_when(input$pop_gdp == 'gdp_in_million' ~ 'GDP ($MM)',
+                                         input$pop_gdp == 'tot_pop_thousands' ~ 'Total Population (k)',
+                                         input$pop_gdp == 'gdp_per_capita' ~ 'GDP Per Capita')
+    
     gather = country_level %>%
       gather(key=feature,value=value,tot_pop_thousands:gdp_per_capita) 
     
-      gather %>%
-        filter(type!='No Starbucks') %>%
-        filter(feature==input$pop_gdp) %>% 
-        ggplot(aes(x=value,y=store_per_capita)) +
-        geom_point(aes(color=type),size=2)+
-        geom_smooth(method='lm',se=F,color='black')+
-        theme_bw() +
-        ylab('') +
-        xlab('') +
-        theme(text=element_text(size=14,face = "bold"),
-              line=element_blank(),
-              panel.border = element_blank(),
-              axis.line = element_line(color='grey20'))+
-        scale_colour_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey"),name='')+
-        scale_x_log10()+
-        scale_y_log10()+
-        #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
-         #             labels = trans_format("log10", math_format(10^.x)))+
-        ggtitle('Scatter Plot of Store Per Capita by GDP, Polution and GDP Per Capita')
+    gather %>%
+      filter(type!='No Starbucks') %>%
+      filter(feature==input$pop_gdp) %>% 
+      ggplot(aes(x=value,y=store_per_capita)) +
+      geom_point(aes(color=type),size=2)+
+      geom_smooth(method='lm',se=F,color='black')+
+      theme_bw() +
+      ylab('Num of Store Per 1,000 Inhabitants') +
+      xlab(var_display_name) +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20'))+
+      scale_colour_manual(values = c('Top 10'="darkgreen", 'Not Top 10'="grey"),name='')+
+      scale_x_log10()+
+      scale_y_log10()+
+      #scale_x_log10(breaks = trans_breaks("log10", function(x) 10^x),
+      #             labels = trans_format("log10", math_format(10^.x)))+
+      ggtitle(paste0('Scatter Plot of Store Density by ', var_display_name))
       
   })
   
