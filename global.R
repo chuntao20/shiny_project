@@ -5,6 +5,8 @@ library(dplyr)
 library(leaflet)
 library(ggthemes)
 library(gridExtra)
+library(tidyr)
+library(ggplot2)
 
 
 #Read in dataset
