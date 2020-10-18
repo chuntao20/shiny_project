@@ -13,6 +13,8 @@ store_level = read.csv('store_level.csv',header = T)
 country_level = read.csv('pop_gdp_new.csv',header = T)
 cpi_join = read.csv('cpi_join.csv',header = T)
 abv_avg = read.csv('abv.csv',header=T)
+avg_dist_bar = read.csv('avg_dist_bar.csv',header = T)
+avg_dist_map = read.csv('avg_dist_map.csv', header = T)
 
 
 

@@ -272,9 +272,42 @@ shinyServer(function(input, output){
     
   })
   
-
+#---------------------------------Average Distance Tab ---------------------------------
+  #--------------------------Average Distance Bar Plot---------------------------------
   
-  #-------------table------------------
+  output$avg_dist_bar = renderPlot({
+    
+    avg_dist_bar %>%
+      ggplot(aes(y=reorder(city,desc(avg_dist)), x=avg_dist)) +
+      geom_col(fill='darkgreen')+
+      theme_bw() +
+      ylab('') +
+      xlab('') +
+      ggtitle('Average Distance (in Miles) Between All Stores') +
+      theme(text=element_text(size=14,face = "bold"),
+            line=element_blank(),
+            panel.border = element_blank(),
+            axis.line = element_line(color='grey20')) 
+    
+  })
+  
+  
+  #----------------------------Average Distance Map-----------------------------------
+  
+  output$avg_dist_map = renderLeaflet({
+    
+    avg_dist_map %>%
+      filter(location == input$location ) %>%
+      select(longitude,latitude) %>%
+      leaflet() %>% 
+      addTiles() %>%
+      addMarkers(
+        clusterOptions = markerClusterOptions()
+      )
+      
+  })
+  
+#-------------table------------------
   
   output$table <- DT::renderDataTable({
     datatable(country_level, rownames=FALSE)

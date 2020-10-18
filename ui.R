@@ -26,6 +26,10 @@ dashboardPage(
                    tabName = 'analysis2', icon = icon('chart-bar')
                    ),
           
+          menuItem('Average Distance Within City',
+                   tabName = 'avg_dist', icon = icon('chart-bar')
+                  ),
+          
           menuItem('Data',
                    tabName = 'data',icon = icon('database')
                    )
@@ -167,7 +171,8 @@ dashboardPage(
               ),
               
               fluidRow(
-                box(leafletOutput('ownermap'),width=8),
+                box(leafletOutput('ownermap'),
+                    width=8),
                 box(h3('The ownership type within one country could be different geographically.'),
                     br(),
                     h4("Hint: Try Zoom in China, UK, or Carribean area to check it out."),
@@ -179,6 +184,23 @@ dashboardPage(
 
       ),
       
+      tabItem(
+              tabName = 'avg_dist', h2("Average Distance Between All Stores in City"),
+              
+              fluidRow(
+                box(selectizeInput(inputId = "location",
+                                   label = "Select a city",
+                                   choices = unique(avg_dist_map$location)),
+                    width=5)),
+
+              fluidRow(
+                box(plotOutput('avg_dist_bar'),
+                    width=5),
+                box(leafletOutput('avg_dist_map'),
+                    width=7)
+                
+              )
+      ),
       
       tabItem(
               tabName = 'data', 
