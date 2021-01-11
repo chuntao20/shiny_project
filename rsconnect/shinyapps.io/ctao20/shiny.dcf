@@ -1,0 +1,10 @@
+name: shiny
+title:
+username:
+account: ctao20
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3044251
+bundleId: 3755880
+url: https://ctao20.shinyapps.io/shiny/
+when: 1603060255.69234
